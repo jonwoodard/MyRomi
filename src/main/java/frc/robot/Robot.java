@@ -1,16 +1,20 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot
 {
-  
   static
   {
     System.out.println("Robot");
-    RobotContainer.runMeFirst();
+    RobotContainer.runThisFirst();
   }
+
+  private final Timer timer = new Timer();
+  private double prevXAccel = 0.0;
+  private double prevYAccel = 0.0;
 
   /**
    * ROBOT methods
@@ -28,11 +32,27 @@ public class Robot extends TimedRobot
 
     RobotContainer.redLED.off();
     RobotContainer.yellowLED.off();
+
+    timer.reset();
+    timer.start();
   }
 
   @Override
   public void robotPeriodic() 
-  {}
+  {
+    double xAccel = RobotContainer.accelerometer.getX();
+    double yAccel = RobotContainer.accelerometer.getY();
+    double loopTime = timer.get();
+    double xJerk = (xAccel - prevXAccel) / loopTime;
+    double yJerk = (yAccel = prevYAccel) / loopTime;
+
+    String str = String.format("x = %5.1f | y = %5.1f", xJerk, yJerk);
+    System.out.println(str);
+
+    prevXAccel = xAccel;
+    prevYAccel = yAccel;
+    timer.reset();
+  }
 
 
 

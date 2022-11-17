@@ -10,7 +10,23 @@
       "/LiveWindow/Ungrouped/DigitalInput[2]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalOutput[3]": "Digital Output",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/SmartDashboard/Auto choices": "String Chooser",
       "/SmartDashboard/SendableChooser[0]": "String Chooser"
+    },
+    "windows": {
+      "/SmartDashboard/Auto choices": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "SmartDashboard": {
+      "Auto choices": {
+        "open": true
+      },
+      "open": true
     }
   }
 }

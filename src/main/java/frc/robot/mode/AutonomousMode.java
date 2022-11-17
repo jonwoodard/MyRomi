@@ -30,8 +30,10 @@ public class AutonomousMode implements StateControl
     RobotContainer.drivetrain.resetEncoders();
     autoStep = 1;
 
+    // Check if button A or B was pressed during disabled mode
     autoSelection = RobotContainer.disabledMode.getAutoSelection();
 
+    // If no button was pressed during disabled mode, then get the autonomous selection from the dashboard
     if(autoSelection == "None")
       autoSelection = RobotContainer.autoChooser.getSelected();
     System.out.println("Auto selected: " + autoSelection);
@@ -84,7 +86,7 @@ public class AutonomousMode implements StateControl
           autoStep++;
         break;
     }
-    System.out.println(RobotContainer.drivetrain);
+    // System.out.println(RobotContainer.drivetrain);
   }
 
   @Override

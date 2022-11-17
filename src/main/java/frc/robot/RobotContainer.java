@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.romi.RomiGyro;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.mode.AutonomousMode;
 import frc.robot.mode.DisabledMode;
@@ -25,7 +26,7 @@ public final class RobotContainer
 
   // https://docs.wpilib.org/en/stable/docs/romi-robot/hardware-support.html
   public final static RomiGyro romiGyro = new RomiGyro();
-
+  public final static BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
   
   // *** Buttons and LEDs
   public final static RomiButton buttonA = new RomiButton(Button.kA);
@@ -51,6 +52,6 @@ public final class RobotContainer
   private RobotContainer()
   {}
 
-  public static void runMeFirst()
+  public static void runThisFirst()
   {}
 }
