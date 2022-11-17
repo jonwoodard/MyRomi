@@ -9,7 +9,7 @@ public class Robot extends TimedRobot
   static
   {
     System.out.println("Robot");
-    RobotContainer.runThisFirst();
+    RobotContainer.loadThisClassFirst();
   }
 
   private final Timer timer = new Timer();

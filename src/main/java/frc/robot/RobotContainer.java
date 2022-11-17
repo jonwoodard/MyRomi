@@ -52,6 +52,6 @@ public final class RobotContainer
   private RobotContainer()
   {}
 
-  public static void runThisFirst()
+  public static void loadThisClassFirst()
   {}
 }
