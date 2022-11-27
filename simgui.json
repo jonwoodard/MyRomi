@@ -2,8 +2,8 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/LiveWindow/RomiButton/kA": "Subsystem",
-      "/LiveWindow/RomiButton/kB": "Subsystem",
+      "/LiveWindow/RomiButton/kA": "Digital Input",
+      "/LiveWindow/RomiButton/kB": "Digital Input",
       "/LiveWindow/RomiDrivetrain": "Subsystem",
       "/LiveWindow/RomiDrivetrain/Motors": "DifferentialDrive",
       "/LiveWindow/RomiLED/kRED": "Digital Output",
