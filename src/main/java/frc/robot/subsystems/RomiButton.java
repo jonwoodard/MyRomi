@@ -1,9 +1,9 @@
-package frc.robot.sensors;
+package frc.robot.subsystems;
 
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.DigitalInput;
 
-public class RomiButton extends DigitalInput
+public class RomiButton /*extends DigitalInput*/ implements RomiSubsystem
 {
   static
   {
@@ -15,31 +15,33 @@ public class RomiButton extends DigitalInput
     kPRESSED, kSTILL_PRESSED, kRELEASED, kSTILL_RELEASED;
   }
 
-  public enum Button
+  public enum ButtonName
   {
     kA(0), kB(1), kC(2);
 
     public final int port;
-    private Button(int value)
+    private ButtonName(int value)
     {
       port = value;
     }
   }
-
+  private final DigitalInput digitalInput;
   private State state = State.kSTILL_RELEASED;
-  private Button button = null;
+  private ButtonName button = null;
+  private boolean currentlyPressed = false;
 
-  public RomiButton(Button button)
+  public RomiButton(ButtonName button)
   {
-    super(button.port);
+    // super(button.port);
+    digitalInput = new DigitalInput(button.port);
     this.button = button;
 
-    SendableRegistry.addLW(this, "RomiButton", button.toString());
+    SendableRegistry.addLW(digitalInput, "RomiButton", button.toString());
   }
 
   private void updateState()
   {
-    boolean currentlyPressed = get();
+    // boolean currentlyPressed = get();
     switch(state)
     {
       case kPRESSED:
@@ -73,20 +75,33 @@ public class RomiButton extends DigitalInput
 
   public boolean getButton()
   {
-    updateState();
+    // updateState();
     return state == State.kPRESSED || state == State.kSTILL_PRESSED;
   }
 
   public boolean getButtonPressed()
   {
-    updateState();
+    // updateState();
     return state == State.kPRESSED;
   }
   
   public boolean getButtonReleased()
   {
-    updateState();
+    // updateState();
     return state == State.kRELEASED;
+  }
+
+  @Override
+  public synchronized void readPeriodicInputs()
+  {
+    currentlyPressed = digitalInput.get();
+    updateState();
+  }
+
+  @Override
+  public synchronized void writePeriodicOutputs()
+  {
+
   }
 
   @Override
