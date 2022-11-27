@@ -3,7 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.RomiDrivetrain;
 
-public class TurnDegrees extends CommandBase
+public class SpinDegrees extends CommandBase
 {
   private final RomiDrivetrain drivetrain;
   private final double speed;
@@ -11,11 +11,17 @@ public class TurnDegrees extends CommandBase
   private final double inchPerDegree = Math.PI * (141.0 / 25.4) / 360.0;
   private boolean isDriving = false;
 
-  public TurnDegrees(double speed, double angleDegrees, RomiDrivetrain drivetrain)
+  /**
+   * Command that spins the robot a given number of degrees
+   * @param speed the speed to spin, use + for clockwise and - for counterclockwise
+   * @param angleDegrees angle in degrees to spin (use positive value)
+   * @param drivetrain the drivetrain subsystem
+   */
+  public SpinDegrees(double speed, double angleDegrees, RomiDrivetrain drivetrain)
   {
     this.drivetrain = drivetrain;
     this.speed = speed;
-    this.angleDegrees = angleDegrees;
+    this.angleDegrees = Math.abs(angleDegrees);
 
     addRequirements(drivetrain);
   }
@@ -37,13 +43,13 @@ public class TurnDegrees extends CommandBase
       isDriving = true;
     }
     else
-      drivetrain.arcadeDrive(0.0, 0.0);
+      drivetrain.stopMotors();
   }
 
   @Override
   public void end(boolean interrupted)
   {
-    drivetrain.arcadeDrive(0.0, 0.0);
+    drivetrain.stopMotors();
   }
 
   @Override
@@ -52,6 +58,10 @@ public class TurnDegrees extends CommandBase
     return isDriving && getAverageTurningDistance() >= (inchPerDegree * angleDegrees);
   }
 
+  /**
+   * Method that averages the left and right encoder distances
+   * @return the average of the left and right encoder distances
+   */
   private double getAverageTurningDistance()
   {
     double leftDistance = Math.abs(drivetrain.getLeftDistanceInch());
