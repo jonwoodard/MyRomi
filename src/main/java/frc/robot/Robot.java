@@ -1,20 +1,28 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.modes.AutonomousMode;
+import frc.robot.modes.DisabledMode;
+import frc.robot.modes.RobotMode;
+import frc.robot.modes.TeleopMode;
+import frc.robot.modes.TestMode;
 
 public class Robot extends TimedRobot
 {
   static
   {
-    System.out.println("Robot");
-    RobotContainer.loadThisClassFirst();
+    System.out.println("Robot Class");
   }
 
-  private final Timer timer = new Timer();
-  private double prevXAccel = 0.0;
-  private double prevYAccel = 0.0;
+  private final RobotContainer robotContainer = new RobotContainer();
+
+  private final RobotMode robotMode = new RobotMode(robotContainer);
+  private final DisabledMode disabledMode = new DisabledMode(robotContainer);
+  private final AutonomousMode autonomousMode = new AutonomousMode(robotContainer);
+  private final TeleopMode teleopMode = new TeleopMode(robotContainer);
+  private final TestMode testMode = new TestMode(robotContainer);
+
 
   /**
    * ROBOT methods
@@ -24,34 +32,14 @@ public class Robot extends TimedRobot
   {
     System.out.println("Robot Init");
     SmartDashboard.putString("message", "Robot Init");
-    // DriverStation.reportError("ERROR: This is an error", true);
-    // DriverStation.reportWarning("WARNING: This is a warning", true);
-
-    RobotContainer.drivetrain.resetEncoders();
-    RobotContainer.romiGyro.reset();
-
-    RobotContainer.redLED.off();
-    RobotContainer.yellowLED.off();
-
-    timer.reset();
-    timer.start();
+    
+    robotMode.init();
   }
 
   @Override
   public void robotPeriodic() 
   {
-    double xAccel = RobotContainer.accelerometer.getX();
-    double yAccel = RobotContainer.accelerometer.getY();
-    double loopTime = timer.get();
-    double xJerk = (xAccel - prevXAccel) / loopTime;
-    double yJerk = (yAccel = prevYAccel) / loopTime;
-
-    String str = String.format("x = %5.1f | y = %5.1f", xJerk, yJerk);
-    System.out.println(str);
-
-    prevXAccel = xAccel;
-    prevYAccel = yAccel;
-    timer.reset();
+    robotMode.periodic();
   }
 
 
@@ -65,19 +53,19 @@ public class Robot extends TimedRobot
     System.out.println("Disabled Mode");
     SmartDashboard.putString("message", "Disabled");
     
-    RobotContainer.disabledMode.init();
+    disabledMode.init();
   }
 
   @Override
   public void disabledPeriodic() 
   {
-    RobotContainer.disabledMode.periodic();
+    disabledMode.periodic();
   }
 
   @Override
   public void disabledExit()
   {
-    RobotContainer.disabledMode.exit();
+    disabledMode.exit();
   }
 
 
@@ -91,19 +79,19 @@ public class Robot extends TimedRobot
     System.out.println("Autonomous Mode");
     SmartDashboard.putString("message", "Autonomous");
 
-    RobotContainer.autonomousMode.init();
+    autonomousMode.init();
   }
 
   @Override
   public void autonomousPeriodic() 
   {
-    RobotContainer.autonomousMode.periodic();
+    autonomousMode.periodic();
   }
 
   @Override
   public void autonomousExit()
   {
-    RobotContainer.autonomousMode.exit();
+    autonomousMode.exit();
   }
 
 
@@ -117,19 +105,19 @@ public class Robot extends TimedRobot
     System.out.println("Teleop Mode");
     SmartDashboard.putString("message", "Teleop");
 
-    RobotContainer.teleopMode.init();
+    teleopMode.init();
   }
 
   @Override
   public void teleopPeriodic() 
   {
-    RobotContainer.teleopMode.periodic();
+    teleopMode.periodic();
   }
 
   @Override
   public void teleopExit()
   {
-    RobotContainer.teleopMode.exit();
+    teleopMode.exit();
   }
 
 
@@ -143,18 +131,18 @@ public class Robot extends TimedRobot
     System.out.println("Test Mode");
     SmartDashboard.putString("message", "Test");
 
-    RobotContainer.testMode.init();
+    testMode.init();
   }
 
   @Override
   public void testPeriodic() 
   {
-    RobotContainer.testMode.periodic();
+    testMode.periodic();
   }
 
   @Override
   public void testExit()
   {
-    RobotContainer.testMode.exit();
+    testMode.exit();
   }
 }
