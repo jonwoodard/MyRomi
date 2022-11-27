@@ -2,8 +2,12 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/LiveWindow/Drivetrain": "Subsystem",
-      "/LiveWindow/OnBoardIO": "Subsystem",
+      "/LiveWindow/RomiButton/kA": "Subsystem",
+      "/LiveWindow/RomiButton/kB": "Subsystem",
+      "/LiveWindow/RomiDrivetrain": "Subsystem",
+      "/LiveWindow/RomiDrivetrain/Motors": "DifferentialDrive",
+      "/LiveWindow/RomiLED/kRED": "Digital Output",
+      "/LiveWindow/RomiLED/kYELLOW": "Digital Output",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
@@ -22,9 +26,17 @@
     }
   },
   "NetworkTables": {
-    "SmartDashboard": {
-      "Auto choices": {
+    "LiveWindow": {
+      "RomiButton": {
+        "kA": {
+          "open": true
+        },
         "open": true
+      },
+      "Ungrouped": {
+        "Scheduler": {
+          "open": true
+        }
       },
       "open": true
     }
