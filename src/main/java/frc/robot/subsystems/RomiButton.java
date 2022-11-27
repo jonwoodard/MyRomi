@@ -30,6 +30,10 @@ public class RomiButton /*extends DigitalInput*/ implements RomiSubsystem
   private ButtonName button = null;
   private boolean currentlyPressed = false;
 
+  /**
+   * Creates a romi button (A, B, or C)
+   * @param button the button to create
+   */
   public RomiButton(ButtonName button)
   {
     // super(button.port);
@@ -73,24 +77,39 @@ public class RomiButton /*extends DigitalInput*/ implements RomiSubsystem
     }
   }
 
+  /**
+   * Method that returns the state of the button (true = pressed, false = released)
+   * @return the state of the button
+   */
   public boolean getButton()
   {
     // updateState();
     return state == State.kPRESSED || state == State.kSTILL_PRESSED;
   }
 
+  /**
+   * Method that returns if the button was just pressed
+   * @return the state of the press
+   */
   public boolean getButtonPressed()
   {
     // updateState();
     return state == State.kPRESSED;
   }
   
+  /**
+   * Method that returns if the button was just released
+   * @return the state of the release
+   */
   public boolean getButtonReleased()
   {
     // updateState();
     return state == State.kRELEASED;
   }
 
+  /**
+   * Method that is called in robotPeriodic() to read inputs
+   */
   @Override
   public synchronized void readPeriodicInputs()
   {
@@ -98,11 +117,12 @@ public class RomiButton /*extends DigitalInput*/ implements RomiSubsystem
     updateState();
   }
 
+  /**
+   * Method that is called in robotPeriodic() to write outputs
+   */
   @Override
   public synchronized void writePeriodicOutputs()
-  {
-
-  }
+  {}
 
   @Override
   public String toString()

@@ -37,6 +37,10 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
   private double blinkOffSec = 0.0;
   private boolean isUpdateEnabled = true;
 
+  /**
+   * Creates a romi LED (Green, Red, or Yellow)
+   * @param color the LED to create
+   */
   public RomiLED(Color color)
   {
     // super(color.port);
@@ -49,6 +53,9 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
     SendableRegistry.addLW(digitalOutput, "RomiLED", color.toString());
   }
 
+  /**
+   * Method to turn on the LED
+   */
   public void on()
   {
     // isBlinking = false;
@@ -56,6 +63,9 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
     state = State.kON;
   }
 
+  /**
+   * Method to turn off the LED
+   */
   public void off()
   {
     // isBlinking = false;
@@ -63,6 +73,11 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
     state = State.kOFF;
   }
 
+  /**
+   * Method to change the LED state
+   *  - ON and OFF switch
+   *  - BLINK_ON and BLINK_OFF switch
+   */
   public void change()
   {
     // isBlinking = false;
@@ -86,6 +101,10 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
     }
   }
   
+  /**
+   * Method that checks if the LED is on
+   * @return true if the LED state is ON or BLINK_ON
+   */
   public boolean isOn()
   {
     if(state == State.kON || state == State.kBLINK_ON)
@@ -94,6 +113,10 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
       return false;
   }
 
+  /**
+   * Method that checks if the LED is off
+   * @return true if the LED state is OFF or BLINK_OFF
+   */
   public boolean isOff()
   {
     if(state == State.kOFF || state == State.kBLINK_OFF)
@@ -102,6 +125,10 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
       return false;
   }
 
+  /**
+   * Method that checks if the LED is blinking
+   * @return true if the LED state is BLINK_ON or BLINK_OFF
+   */
   public boolean isBlinking()
   {
     if(state == State.kBLINK_ON || state == State.kBLINK_OFF)
@@ -109,10 +136,9 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
     else
       return false;
   }
- 
   
   /**
-   * This method must be called periodically in order to blink the LED.
+   * Method to set the blink rate of the LED
    */
   public void blink(double onSec, double offSec)
   {
@@ -143,6 +169,9 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
     // }
   }
 
+  /**
+   * Method to update the LED state if it is blinking
+   */
   private void updateBlink()
   {
     double currentTime = Timer.getFPGATimestamp();
@@ -170,10 +199,16 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
     }
   }
 
+  /**
+   * Method that is called in robotPeriodic() to read inputs
+   */
   @Override
   public synchronized void readPeriodicInputs()
   {}
 
+  /**
+   * Method that is called in robotPeriodic() to write outputs
+   */
   @Override
   public synchronized void writePeriodicOutputs()
   {
@@ -186,12 +221,19 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
     digitalOutput.set(false);
   }
 
+  /**
+   * Method used to enable/disable periodic updates
+   * Used to disable in Test Mode for the LiveWindow
+   */
   @Override
   public void enablePeriodicUpdates(boolean isEnabled)
   {
     isUpdateEnabled = isEnabled;
   }
 
+  /**
+   * Method used to check if the periodic updates are enabled
+   */
   @Override
   public boolean isPeriodicUpdateEnabled()
   {
