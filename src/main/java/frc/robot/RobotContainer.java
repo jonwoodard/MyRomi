@@ -51,7 +51,10 @@ public final class RobotContainer
   public final SendableChooser<String> autoChooser = new SendableChooser<>();
   public final ArrayList<RomiSubsystem> allRomiSubsystems = new ArrayList<>();
 
-  // default modifier, only accessible within the same package
+  /**
+   * Contruct all the subsytems and components of the robot
+   * NOTE: default modifier (not public, private, protected), only accessible within the same package
+   */
   RobotContainer()
   {
     configureAutoChooser();
@@ -61,6 +64,9 @@ public final class RobotContainer
     SendableRegistry.addLW(accelerometer, "RomiAccelerometer", "Accelerometer");
   }
 
+  /**
+   * Method to configure the chooser for the Autonomous Selection
+   */
   private void configureAutoChooser()
   {
     autoChooser.setDefaultOption("Auto None", "None");
@@ -69,6 +75,9 @@ public final class RobotContainer
     SmartDashboard.putData("Auto choices", autoChooser);
   }
 
+  /**
+   * Method to add the romi subsystems to the list of periodic updates
+   */
   private void configureRomiSubsystem()
   {
     allRomiSubsystems.add(drivetrain);
@@ -78,15 +87,21 @@ public final class RobotContainer
     allRomiSubsystems.add(buttonB);
   }
 
-  // using lambda expressions
+  /**
+   * Method to configure ALL bindings for buttons, axis, joysticks, etc.
+   */
   private void configureBindings()
   {
     configureDriverBindings();
     configureRomiButtonBindings();
   }
 
+  /**
+   * Method to configure bindings for Driver controls
+   */
   private void configureDriverBindings()
   {
+    // using lambda expressions
     Button driverButtonA = new Button(() -> joystick.getRawButtonPressed(1));
     driverButtonA.whenPressed(() -> drivetrain.toggleSpeedFactor(), drivetrain);
 
@@ -96,8 +111,12 @@ public final class RobotContainer
     // drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> -joystick.getRawAxis(1), () -> joystick.getRawAxis(4)));
   }
 
+  /**
+   * Method to configure bindings for Romi Buttons
+   */
   private void configureRomiButtonBindings()
   {
+    // using lambda expressions
     Button romiButtonA = new Button(() -> buttonA.getButton());
     romiButtonA.whenPressed(new PrintCommand("RomiButton A Pressed"));
     romiButtonA.whenReleased(new PrintCommand("RomiButton A Released"));
