@@ -87,7 +87,7 @@ public class AutonomousMode implements Mode
   {
     // CommandScheduler.getInstance().disable();
 
-    robotContainer.drivetrain.arcadeDrive(0.0, 0.0);
+    robotContainer.drivetrain.stopMotors();;
     robotContainer.drivetrain.resetEncoders();
 
     autoSelection = "None";
@@ -112,7 +112,7 @@ public class AutonomousMode implements Mode
   //   }
   //   else
   //   {
-  //     robotContainer.drivetrain.arcadeDrive(0.0, 0.0);
+  //     robotContainer.drivetrain.stopMotors();
   //     robotContainer.drivetrain.resetEncoders();
   //     isFinished = true;
   //   }
