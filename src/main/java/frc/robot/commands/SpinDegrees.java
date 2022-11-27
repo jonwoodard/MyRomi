@@ -8,7 +8,6 @@ public class SpinDegrees extends CommandBase
   private final RomiDrivetrain drivetrain;
   private final double speed;
   private final double angleDegrees;
-  private final double inchPerDegree = Math.PI * (141.0 / 25.4) / 360.0;
   private boolean isDriving = false;
 
   /**
@@ -57,17 +56,7 @@ public class SpinDegrees extends CommandBase
   @Override
   public boolean isFinished()
   {
-    return isDriving && getAverageSpinningDistance() >= (inchPerDegree * angleDegrees);
-  }
-
-  /**
-   * Method that averages the left and right encoder distances
-   * @return the average of the left and right encoder distances
-   */
-  private double getAverageSpinningDistance()
-  {
-    double leftDistance = Math.abs(drivetrain.getLeftDistanceInch());
-    double rightDistance = Math.abs(drivetrain.getRightDistanceInch());
-    return (leftDistance + rightDistance) / 2.0;
+    return isDriving && drivetrain.getAverageSpinningAngle() >= angleDegrees;
+    // return isDriving && getAverageSpinningDistance() >= (inchPerDegree * angleDegrees);
   }
 }
