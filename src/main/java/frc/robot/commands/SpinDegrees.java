@@ -14,7 +14,7 @@ public class SpinDegrees extends CommandBase
   /**
    * Command that spins the robot a given number of degrees
    * @param speed the speed to spin, use + for clockwise and - for counterclockwise
-   * @param angleDegrees angle in degrees to spin (use positive value)
+   * @param angleDegrees the angle in degrees to spin (use positive value)
    * @param drivetrain the drivetrain subsystem
    */
   public SpinDegrees(double speed, double angleDegrees, RomiDrivetrain drivetrain)
@@ -31,12 +31,14 @@ public class SpinDegrees extends CommandBase
   {
     System.out.println("TurnDegrees(" + speed + ", " + angleDegrees + ")");
 
+    // NOTE: resetting the encoders takes time, it is not instantaneous
     drivetrain.resetEncoders();
   }
 
   @Override
   public void execute()
   {
+    // Wait for the encoder to reset before spinning
     if(drivetrain.isEncoderReset())
     { 
       drivetrain.arcadeDrive(0.0, speed);

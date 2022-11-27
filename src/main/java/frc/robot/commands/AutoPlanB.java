@@ -7,6 +7,10 @@ import frc.robot.subsystems.RomiDrivetrain;
 
 public class AutoPlanB extends SequentialCommandGroup
 {
+  /**
+   * Command that completes Autonomous Plan B
+   * @param drivetrain the drivetrain subsystem
+   */
   public AutoPlanB(RomiDrivetrain drivetrain)
   {
     double speed = 0.5;
@@ -15,19 +19,19 @@ public class AutoPlanB extends SequentialCommandGroup
     addCommands(
       new WaitCommand(waitTimeSec),
 
-      new DriveDistance(speed, -10.0, drivetrain),
+      new DriveDistance(-speed, 10.0, drivetrain),
       // new WaitCommand(waitTimeSec),
       // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
 
-      new TurnDegrees(speed, -180.0, drivetrain),
+      new SpinDegrees(-speed, 180.0, drivetrain),
       // new WaitCommand(waitTimeSec),
       // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
 
-      new DriveDistance(speed, -10.0, drivetrain),
+      new DriveDistance(-speed, 10.0, drivetrain),
       // new WaitCommand(waitTimeSec),
       // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
 
-      new TurnDegrees(speed, -180.0, drivetrain),
+      new SpinDegrees(-speed, 180.0, drivetrain),
       new PrintCommand("AutoPlanB DONE")
     );
   }
