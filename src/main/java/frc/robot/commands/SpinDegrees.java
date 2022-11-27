@@ -57,14 +57,14 @@ public class SpinDegrees extends CommandBase
   @Override
   public boolean isFinished()
   {
-    return isDriving && getAverageTurningDistance() >= (inchPerDegree * angleDegrees);
+    return isDriving && getAverageSpinningDistance() >= (inchPerDegree * angleDegrees);
   }
 
   /**
    * Method that averages the left and right encoder distances
    * @return the average of the left and right encoder distances
    */
-  private double getAverageTurningDistance()
+  private double getAverageSpinningDistance()
   {
     double leftDistance = Math.abs(drivetrain.getLeftDistanceInch());
     double rightDistance = Math.abs(drivetrain.getRightDistanceInch());
