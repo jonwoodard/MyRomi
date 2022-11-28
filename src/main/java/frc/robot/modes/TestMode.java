@@ -15,6 +15,7 @@ public class TestMode implements Mode
   public TestMode(RobotContainer robotContainer)
   {
     this.robotContainer = robotContainer;
+    
     // CommandScheduler.getInstance().disable();
   }
 
@@ -22,8 +23,10 @@ public class TestMode implements Mode
   public void init()
   {
     // Disable the LEDs so that they can be controlled manually
-    robotContainer.redLED.enablePeriodicUpdates(false);
-    robotContainer.yellowLED.enablePeriodicUpdates(false);
+    if(robotContainer.redLED != null)
+      robotContainer.redLED.enablePeriodicUpdates(false);
+    if(robotContainer.yellowLED != null)
+      robotContainer.yellowLED.enablePeriodicUpdates(false);
   }
 
   @Override
@@ -34,8 +37,11 @@ public class TestMode implements Mode
   public void exit()
   {
     // Enable the LEDs so that they are controlled automatically
-    robotContainer.redLED.enablePeriodicUpdates(true);
-    robotContainer.yellowLED.enablePeriodicUpdates(true);
+    if(robotContainer.redLED != null)
+      robotContainer.redLED.enablePeriodicUpdates(true);
+    if(robotContainer.yellowLED != null)
+      robotContainer.yellowLED.enablePeriodicUpdates(true);
+
     // CommandScheduler.getInstance().enable();
   }
 }

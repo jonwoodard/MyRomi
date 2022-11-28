@@ -26,11 +26,15 @@ public class RobotMode implements Mode
   @Override
   public void init()
   {
-    robotContainer.drivetrain.resetEncoders();
-    robotContainer.romiGyro.reset();
+    if(robotContainer.drivetrain != null)
+      robotContainer.drivetrain.resetEncoders();
+    if(robotContainer.romiGyro != null)
+      robotContainer.romiGyro.reset();
 
-    robotContainer.redLED.off();
-    robotContainer.yellowLED.off();
+    if(robotContainer.redLED != null)
+      robotContainer.redLED.off();
+    if(robotContainer.yellowLED != null)
+      robotContainer.yellowLED.off();
 
     // timer.reset();
     // timer.start();

@@ -28,27 +28,39 @@ public final class RobotContainer
     System.out.println("RobotContainer");
   }
 
-  public final RomiDrivetrain drivetrain = new RomiDrivetrain();
-  public final Joystick joystick = new Joystick(0);
+  private final boolean useFullRobot        = true;
+  private final boolean useRomiDrivetrain   = true;
+  private final boolean useJoystick         = true;
+  private final boolean useRomiGyro         = true;
+  private final boolean useAccelerometer    = true;
+  private final boolean useRomiButtonA      = true;
+  private final boolean useRomiButtonB      = true;
+  private final boolean useRomiRedLED       = true;
+  private final boolean useRomiYellowLED    = true;
+  private final boolean useAutoChooser      = true;
+
+  public final RomiDrivetrain drivetrain;// = new RomiDrivetrain();
+  public final Joystick joystick;// = new Joystick(0);
 
   // https://docs.wpilib.org/en/stable/docs/romi-robot/hardware-support.html
-  public final RomiGyro romiGyro = new RomiGyro();
-  public final BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
+  public final RomiGyro romiGyro;// = new RomiGyro();
+  public final BuiltInAccelerometer accelerometer;// = new BuiltInAccelerometer();
   
   // *** Buttons and LEDs
-  public final RomiButton buttonA = new RomiButton(ButtonName.kA);
+  public final RomiButton buttonA;// = new RomiButton(ButtonName.kA);
 
   // Pick either Button B or Green LED
-  public final RomiButton buttonB = new RomiButton(ButtonName.kB);
+  public final RomiButton buttonB;// = new RomiButton(ButtonName.kB);
   // private final RomiLED green = new RomiLED(Color.kGREEN);
 
   // Pick either Button C or Red LED
   // private final RomiButton buttonC = new RomiButton(Button.kC);
-  public final RomiLED redLED = new RomiLED(Color.kRED);
+  public final RomiLED redLED;// = new RomiLED(Color.kRED);
 
-  public final RomiLED yellowLED = new RomiLED(Color.kYELLOW);
+  public final RomiLED yellowLED;// = new RomiLED(Color.kYELLOW);
 
-  public final SendableChooser<String> autoChooser = new SendableChooser<>();
+  public final SendableChooser<String> autoChooser;// = new SendableChooser<>();
+
   public final ArrayList<RomiSubsystem> allRomiSubsystems = new ArrayList<>();
 
   /**
@@ -57,11 +69,22 @@ public final class RobotContainer
    */
   RobotContainer()
   {
+    drivetrain =    (useFullRobot || useRomiDrivetrain) ? new RomiDrivetrain()          : null;
+    joystick =      (useFullRobot || useJoystick)       ? new Joystick(0)               : null;
+    romiGyro =      (useFullRobot || useRomiGyro)       ? new RomiGyro()                : null;
+    accelerometer = (useFullRobot || useAccelerometer)  ? new BuiltInAccelerometer()    : null;
+    buttonA =       (useFullRobot || useRomiButtonA)    ? new RomiButton(ButtonName.kA) : null;
+    buttonB =       (useFullRobot || useRomiButtonB)    ? new RomiButton(ButtonName.kB) : null;
+    redLED =        (useFullRobot || useRomiRedLED)     ? new RomiLED(Color.kRED)       : null;
+    yellowLED =     (useFullRobot || useRomiYellowLED)  ? new RomiLED(Color.kYELLOW)    : null;
+    autoChooser =   (useFullRobot || useAutoChooser)    ? new SendableChooser<>()       : null;
+
     configureAutoChooser();
     configureRomiSubsystem();
     configureBindings();
 
-    SendableRegistry.addLW(accelerometer, "RomiAccelerometer", "Accelerometer");
+    if(accelerometer != null)
+      SendableRegistry.addLW(accelerometer, "RomiAccelerometer", "Accelerometer");
   }
 
   /**
@@ -69,10 +92,13 @@ public final class RobotContainer
    */
   private void configureAutoChooser()
   {
-    autoChooser.setDefaultOption("Auto None", "None");
-    autoChooser.addOption("Auto A", "A");
-    autoChooser.addOption("Auto B", "B");
-    SmartDashboard.putData("Auto choices", autoChooser);
+    if(autoChooser != null)
+    {
+      autoChooser.setDefaultOption("Auto None", "None");
+      autoChooser.addOption("Auto A", "A");
+      autoChooser.addOption("Auto B", "B");
+      SmartDashboard.putData("Auto choices", autoChooser);
+    }
   }
 
   /**
@@ -80,11 +106,16 @@ public final class RobotContainer
    */
   private void configureRomiSubsystem()
   {
-    allRomiSubsystems.add(drivetrain);
-    allRomiSubsystems.add(redLED);
-    allRomiSubsystems.add(yellowLED);
-    allRomiSubsystems.add(buttonA);
-    allRomiSubsystems.add(buttonB);
+    if(drivetrain != null)
+      allRomiSubsystems.add(drivetrain);
+    if(redLED != null)
+      allRomiSubsystems.add(redLED);
+    if(yellowLED != null)
+      allRomiSubsystems.add(yellowLED);
+    if(buttonA != null)
+      allRomiSubsystems.add(buttonA);
+    if(buttonB != null)
+      allRomiSubsystems.add(buttonB);
   }
 
   /**
@@ -102,13 +133,17 @@ public final class RobotContainer
   private void configureDriverBindings()
   {
     // using lambda expressions
-    Button driverButtonA = new Button(() -> joystick.getRawButtonPressed(1));
-    driverButtonA.whenPressed(() -> drivetrain.toggleSpeedFactor(), drivetrain);
 
-    Supplier<Double> leftYAxis = () -> -joystick.getRawAxis(1);
-    Supplier<Double> rightXAxis = () -> joystick.getRawAxis(4);
-    drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, leftYAxis, rightXAxis));
-    // drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> -joystick.getRawAxis(1), () -> joystick.getRawAxis(4)));
+    if(joystick != null && drivetrain != null)
+    {
+      Button driverButtonA = new Button(() -> joystick.getRawButtonPressed(1));
+      driverButtonA.whenPressed(() -> drivetrain.toggleSpeedFactor(), drivetrain);
+
+      Supplier<Double> leftYAxis = () -> -joystick.getRawAxis(1);
+      Supplier<Double> rightXAxis = () -> joystick.getRawAxis(4);
+      drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, leftYAxis, rightXAxis));
+      // drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> -joystick.getRawAxis(1), () -> joystick.getRawAxis(4)));
+    }
   }
 
   /**
@@ -117,12 +152,19 @@ public final class RobotContainer
   private void configureRomiButtonBindings()
   {
     // using lambda expressions
-    Button romiButtonA = new Button(() -> buttonA.getButton());
-    romiButtonA.whenPressed(new PrintCommand("RomiButton A Pressed"));
-    romiButtonA.whenReleased(new PrintCommand("RomiButton A Released"));
 
-    Button romiButtonB = new Button(() -> buttonB.getButton());
-    romiButtonB.whenPressed(new PrintCommand("RomiButton B Pressed"));
-    romiButtonB.whenReleased(new PrintCommand("RomiButton B Released"));
+    if(buttonA != null)
+    {
+      Button romiButtonA = new Button(() -> buttonA.getButton());
+      romiButtonA.whenPressed(new PrintCommand("RomiButton A Pressed"));
+      romiButtonA.whenReleased(new PrintCommand("RomiButton A Released"));
+    }
+
+    if(buttonB != null)
+    {
+      Button romiButtonB = new Button(() -> buttonB.getButton());
+      romiButtonB.whenPressed(new PrintCommand("RomiButton B Pressed"));
+      romiButtonB.whenReleased(new PrintCommand("RomiButton B Released"));
+    }
   }
 }

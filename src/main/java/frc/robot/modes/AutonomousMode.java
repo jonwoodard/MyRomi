@@ -39,22 +39,33 @@ public class AutonomousMode implements Mode
 
     // If no button was pressed during disabled mode, then get the autonomous selection from the dashboard
     // if(autoSelection == "None")
-    autoSelection = robotContainer.autoChooser.getSelected();
-    System.out.println("Auto selected: " + autoSelection);
-
-    switch(autoSelection)
+    if(robotContainer.autoChooser != null)
     {
-      case "A":
-        autoCommand = new AutoPlanA(robotContainer.drivetrain);
-        autoCommand.schedule();
-        break;
-      case "B":
-        autoCommand = new AutoPlanB(robotContainer.drivetrain);
-        autoCommand.schedule();
-        break;
-      default:
-        autoCommand = null;
-        break;
+      autoSelection = robotContainer.autoChooser.getSelected();
+      System.out.println("Auto selected: " + autoSelection);
+
+      switch(autoSelection)
+      {
+        case "A":
+          if(robotContainer.drivetrain != null)
+          {
+            autoCommand = new AutoPlanA(robotContainer.drivetrain);
+            autoCommand.schedule();
+          }
+          break;
+
+        case "B":
+          if(robotContainer.drivetrain != null)
+          {
+            autoCommand = new AutoPlanB(robotContainer.drivetrain);
+            autoCommand.schedule();
+          }
+          break;
+
+        default:
+          autoCommand = null;
+          break;
+      }
     }
   }
 
@@ -87,8 +98,11 @@ public class AutonomousMode implements Mode
   {
     // CommandScheduler.getInstance().disable();
 
-    robotContainer.drivetrain.stopMotors();;
-    robotContainer.drivetrain.resetEncoders();
+    if(robotContainer.drivetrain != null)
+    {
+      robotContainer.drivetrain.stopMotors();
+      robotContainer.drivetrain.resetEncoders();
+    }
 
     autoSelection = "None";
     if(autoCommand != null)
