@@ -1,6 +1,7 @@
 package frc.robot.modes;
 
 import edu.wpi.first.wpilibj2.command.Command;
+
 import frc.robot.RobotContainer;
 import frc.robot.commands.AutoPlanA;
 import frc.robot.commands.AutoPlanB;
@@ -16,9 +17,7 @@ public class AutonomousMode implements Mode
 
   private String autoSelection = "None";
   private Command autoCommand = null;
-  // private double autoDistance1 = 0.0;
-  // private double autoAngle = 0.0;
-  // private double autoDistance2 = 0.0;
+
   // private int autoStep = 0;
   // private int counter = 0;
 
@@ -30,15 +29,10 @@ public class AutonomousMode implements Mode
   @Override
   public void init()
   {
-    // CommandScheduler.getInstance().enable();
-    
     // autoStep = 1;
+    // autoSelection = RobotContainer.autoChooser.getSelected();
+    // System.out.println("Auto selected: " + autoSelection);
 
-    // Check if button A or B was pressed during disabled mode
-    // FIXME autoSelection = RobotContainer.disabledMode.getAutoSelection();
-
-    // If no button was pressed during disabled mode, then get the autonomous selection from the dashboard
-    // if(autoSelection == "None")
     if(robotContainer.autoChooser != null)
     {
       autoSelection = robotContainer.autoChooser.getSelected();
@@ -47,17 +41,17 @@ public class AutonomousMode implements Mode
       switch(autoSelection)
       {
         case "A":
-          if(robotContainer.drivetrain != null)
+          if(robotContainer.romiDrivetrain != null)
           {
-            autoCommand = new AutoPlanA(robotContainer.drivetrain);
+            autoCommand = new AutoPlanA(robotContainer.romiDrivetrain);
             autoCommand.schedule();
           }
           break;
 
         case "B":
-          if(robotContainer.drivetrain != null)
+          if(robotContainer.romiDrivetrain != null)
           {
-            autoCommand = new AutoPlanB(robotContainer.drivetrain);
+            autoCommand = new AutoPlanB(robotContainer.romiDrivetrain);
             autoCommand.schedule();
           }
           break;
@@ -72,19 +66,13 @@ public class AutonomousMode implements Mode
   @Override
   public void periodic()
   {
-    // switch(autoStep)
+    // switch(autoSelection)
     // {
-    //   case 1:
-    //     if(autoDrive(autoDistance1))
-    //       autoStep++;
+    //   case "A":
+    //     autoPlanA();
     //     break;
-    //   case 2:
-    //     if(autoSpinGyro(autoAngle))
-    //       autoStep++;
-    //     break;
-    //   case 3:
-    //     if(autoDrive(autoDistance2))
-    //       autoStep++;
+    //   case "B":
+    //     autoPlanB();
     //     break;
     // }
 
@@ -96,12 +84,12 @@ public class AutonomousMode implements Mode
   @Override
   public void exit()
   {
-    // CommandScheduler.getInstance().disable();
-
-    if(robotContainer.drivetrain != null)
+    // autoStep = 0;
+    
+    if(robotContainer.romiDrivetrain != null)
     {
-      robotContainer.drivetrain.stopMotors();
-      robotContainer.drivetrain.resetEncoders();
+      robotContainer.romiDrivetrain.stopMotors();
+      robotContainer.romiDrivetrain.resetEncoders();
     }
 
     autoSelection = "None";
@@ -110,10 +98,39 @@ public class AutonomousMode implements Mode
       autoCommand.cancel();
       autoCommand = null;
     }
-    // autoStep = 0;
+
   }
 
 
+  // private void autoPlanA()
+  // {
+  //   switch(autoStep)
+  //   {
+  //     case 1:
+  //       if(autoDrive(12.0))
+  //         autoStep++;
+  //       break;
+  //     case 2:
+  //       if(autoSpinGyro(-90.0))
+  //         autoStep++;
+  //       break;
+  //   }
+  // }
+
+  // private void autoPlanB()
+  // {
+  //   switch(autoStep)
+  //   {
+  //     case 1:
+  //       if(autoDrive(12.0))
+  //         autoStep++;
+  //       break;
+  //     case 2:
+  //       if(autoSpinGyro(90.0))
+  //         autoStep++;
+  //       break;
+  //   }
+  // }
 
   // private boolean autoDrive(double distanceInch)
   // {
@@ -126,7 +143,7 @@ public class AutonomousMode implements Mode
   //   }
   //   else
   //   {
-  //     robotContainer.drivetrain.stopMotors();
+  //     robotContainer.drivetrain.arcadeDrive(0.0, 0.0);
   //     robotContainer.drivetrain.resetEncoders();
   //     isFinished = true;
   //   }

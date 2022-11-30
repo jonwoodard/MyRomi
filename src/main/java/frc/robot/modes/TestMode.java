@@ -1,5 +1,6 @@
 package frc.robot.modes;
 
+import frc.robot.Robot;
 // import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.RobotContainer;
 
@@ -16,7 +17,8 @@ public class TestMode implements Mode
   {
     this.robotContainer = robotContainer;
     
-    // CommandScheduler.getInstance().disable();
+    // if(robotContainer.useCommandScheduler())
+    //   CommandScheduler.getInstance().disable();
   }
 
   @Override
@@ -42,6 +44,7 @@ public class TestMode implements Mode
     if(robotContainer.yellowLED != null)
       robotContainer.yellowLED.enablePeriodicUpdates(true);
 
-    // CommandScheduler.getInstance().enable();
+    // if(robotContainer.useCommandScheduler())
+    //   CommandScheduler.getInstance().enable();
   }
 }

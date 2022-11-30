@@ -1,6 +1,5 @@
 package frc.robot.modes;
 
-// import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.RobotContainer;
 
 public class TeleopMode implements Mode
@@ -19,9 +18,7 @@ public class TeleopMode implements Mode
 
   @Override
   public void init()
-  {
-    // CommandScheduler.getInstance().disable();
-  }
+  {}
 
   @Override
   public void periodic()

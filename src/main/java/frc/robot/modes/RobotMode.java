@@ -1,6 +1,5 @@
 package frc.robot.modes;
 
-// import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.RomiSubsystem;
@@ -26,8 +25,8 @@ public class RobotMode implements Mode
   @Override
   public void init()
   {
-    if(robotContainer.drivetrain != null)
-      robotContainer.drivetrain.resetEncoders();
+    if(robotContainer.romiDrivetrain != null)
+      robotContainer.romiDrivetrain.resetEncoders();
     if(robotContainer.romiGyro != null)
       robotContainer.romiGyro.reset();
 
@@ -43,7 +42,8 @@ public class RobotMode implements Mode
   @Override
   public void periodic()
   {
-    CommandScheduler.getInstance().run();
+    if(robotContainer.useCommandScheduler())
+      CommandScheduler.getInstance().run();
 
     for(RomiSubsystem romiSubsystem : robotContainer.allRomiSubsystems)
     {

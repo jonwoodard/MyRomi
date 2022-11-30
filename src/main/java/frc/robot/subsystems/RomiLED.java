@@ -32,10 +32,9 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
   private Color color = null;
 
   private double lastBlink = 0.0;
-  // private boolean isBlinking = false;
   private double blinkOnSec = 0.0;
   private double blinkOffSec = 0.0;
-  private boolean isUpdateEnabled = true;
+  private boolean isPeriodicUpdatesEnabled = true;
 
   /**
    * Creates a romi LED (Green, Red, or Yellow)
@@ -58,7 +57,6 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
    */
   public void on()
   {
-    // isBlinking = false;
     // set(true);
     state = State.kON;
   }
@@ -68,7 +66,6 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
    */
   public void off()
   {
-    // isBlinking = false;
     // set(false);
     state = State.kOFF;
   }
@@ -142,7 +139,6 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
    */
   public void blink(double onSec, double offSec)
   {
-    // isBlinking = true;
     state = State.kBLINK_ON;
     blinkOnSec = onSec;
     blinkOffSec = offSec;
@@ -218,7 +214,7 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
     if(state == State.kON || state == State.kBLINK_ON)
       digitalOutput.set(true);
     else
-    digitalOutput.set(false);
+      digitalOutput.set(false);
   }
 
   /**
@@ -228,7 +224,13 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
   @Override
   public void enablePeriodicUpdates(boolean isEnabled)
   {
-    isUpdateEnabled = isEnabled;
+    isPeriodicUpdatesEnabled = isEnabled;
+    if(isPeriodicUpdatesEnabled)
+    {
+      blinkOnSec = 0.0;
+      blinkOffSec = 0.0;
+      state = State.kOFF;
+    }
   }
 
   /**
@@ -237,7 +239,7 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
   @Override
   public boolean isPeriodicUpdateEnabled()
   {
-    return isUpdateEnabled;
+    return isPeriodicUpdatesEnabled;
   }
 
   @Override

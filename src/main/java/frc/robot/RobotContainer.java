@@ -28,18 +28,22 @@ public final class RobotContainer
     System.out.println("RobotContainer");
   }
 
-  private final boolean useFullRobot        = true;
+  private final boolean useFullRobot        = true;  // if true, then ALL of the following booleans are automatically true
+
   private final boolean useRomiDrivetrain   = true;
   private final boolean useJoystick         = true;
   private final boolean useRomiGyro         = true;
   private final boolean useAccelerometer    = true;
   private final boolean useRomiButtonA      = true;
   private final boolean useRomiButtonB      = true;
-  private final boolean useRomiRedLED       = true;
-  private final boolean useRomiYellowLED    = true;
+  private final boolean useRomiLEDRed       = true;
+  private final boolean useRomiLEDYellow    = true;
   private final boolean useAutoChooser      = true;
 
-  public final RomiDrivetrain drivetrain;// = new RomiDrivetrain();
+  private final boolean useCommandScheduler = true;  // convenient way to disable the Command Scheduler
+
+
+  public final RomiDrivetrain romiDrivetrain;// = new RomiDrivetrain();
   public final Joystick joystick;// = new Joystick(0);
 
   // https://docs.wpilib.org/en/stable/docs/romi-robot/hardware-support.html
@@ -69,15 +73,15 @@ public final class RobotContainer
    */
   RobotContainer()
   {
-    drivetrain =    (useFullRobot || useRomiDrivetrain) ? new RomiDrivetrain()          : null;
-    joystick =      (useFullRobot || useJoystick)       ? new Joystick(0)               : null;
-    romiGyro =      (useFullRobot || useRomiGyro)       ? new RomiGyro()                : null;
-    accelerometer = (useFullRobot || useAccelerometer)  ? new BuiltInAccelerometer()    : null;
-    buttonA =       (useFullRobot || useRomiButtonA)    ? new RomiButton(ButtonName.kA) : null;
-    buttonB =       (useFullRobot || useRomiButtonB)    ? new RomiButton(ButtonName.kB) : null;
-    redLED =        (useFullRobot || useRomiRedLED)     ? new RomiLED(Color.kRED)       : null;
-    yellowLED =     (useFullRobot || useRomiYellowLED)  ? new RomiLED(Color.kYELLOW)    : null;
-    autoChooser =   (useFullRobot || useAutoChooser)    ? new SendableChooser<>()       : null;
+    romiDrivetrain  = (useFullRobot || useRomiDrivetrain) ? new RomiDrivetrain()          : null;
+    joystick        = (useFullRobot || useJoystick)       ? new Joystick(0)               : null;
+    romiGyro        = (useFullRobot || useRomiGyro)       ? new RomiGyro()                : null;
+    accelerometer   = (useFullRobot || useAccelerometer)  ? new BuiltInAccelerometer()    : null;
+    buttonA         = (useFullRobot || useRomiButtonA)    ? new RomiButton(ButtonName.kA) : null;
+    buttonB         = (useFullRobot || useRomiButtonB)    ? new RomiButton(ButtonName.kB) : null;
+    redLED          = (useFullRobot || useRomiLEDRed)     ? new RomiLED(Color.kRED)       : null;
+    yellowLED       = (useFullRobot || useRomiLEDYellow)  ? new RomiLED(Color.kYELLOW)    : null;
+    autoChooser     = (useFullRobot || useAutoChooser)    ? new SendableChooser<>()       : null;
 
     configureAutoChooser();
     configureRomiSubsystem();
@@ -106,8 +110,8 @@ public final class RobotContainer
    */
   private void configureRomiSubsystem()
   {
-    if(drivetrain != null)
-      allRomiSubsystems.add(drivetrain);
+    if(romiDrivetrain != null)
+      allRomiSubsystems.add(romiDrivetrain);
     if(redLED != null)
       allRomiSubsystems.add(redLED);
     if(yellowLED != null)
@@ -134,14 +138,14 @@ public final class RobotContainer
   {
     // using lambda expressions
 
-    if(joystick != null && drivetrain != null)
+    if(joystick != null && romiDrivetrain != null)
     {
       Button driverButtonA = new Button(() -> joystick.getRawButtonPressed(1));
-      driverButtonA.whenPressed(() -> drivetrain.toggleSpeedFactor(), drivetrain);
+      driverButtonA.whenPressed(() -> romiDrivetrain.toggleSpeedFactor(), romiDrivetrain);
 
       Supplier<Double> leftYAxis = () -> -joystick.getRawAxis(1);
       Supplier<Double> rightXAxis = () -> joystick.getRawAxis(4);
-      drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, leftYAxis, rightXAxis));
+      romiDrivetrain.setDefaultCommand(new ArcadeDrive(romiDrivetrain, leftYAxis, rightXAxis));
       // drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> -joystick.getRawAxis(1), () -> joystick.getRawAxis(4)));
     }
   }
@@ -166,5 +170,10 @@ public final class RobotContainer
       romiButtonB.whenPressed(new PrintCommand("RomiButton B Pressed"));
       romiButtonB.whenReleased(new PrintCommand("RomiButton B Released"));
     }
+  }
+
+  public boolean useCommandScheduler()
+  {
+    return useFullRobot || useCommandScheduler;
   }
 }

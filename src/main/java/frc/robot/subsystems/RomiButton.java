@@ -28,7 +28,7 @@ public class RomiButton /*extends DigitalInput*/ implements RomiSubsystem
   private final DigitalInput digitalInput;
   private State state = State.kSTILL_RELEASED;
   private ButtonName button = null;
-  private boolean currentlyPressed = false;
+  private boolean isCurrentlyPressed = false;
 
   /**
    * Creates a romi button (A, B, or C)
@@ -41,40 +41,6 @@ public class RomiButton /*extends DigitalInput*/ implements RomiSubsystem
     this.button = button;
 
     SendableRegistry.addLW(digitalInput, "RomiButton", button.toString());
-  }
-
-  private void updateState()
-  {
-    // boolean currentlyPressed = get();
-    switch(state)
-    {
-      case kPRESSED:
-        if(currentlyPressed)
-          state = State.kSTILL_PRESSED;
-        else
-          state = State.kRELEASED;
-        break;
-
-      case kSTILL_PRESSED:
-        if(!currentlyPressed)
-          state = State.kRELEASED;
-        break;
-
-      case kRELEASED:
-        if(currentlyPressed)
-          state = State.kPRESSED;
-        else
-          state = State.kSTILL_RELEASED;
-        break;
-        
-      case kSTILL_RELEASED:
-        if(currentlyPressed)
-          state = State.kPRESSED; 
-        break;
-
-      default:
-        break;
-    }
   }
 
   /**
@@ -106,6 +72,40 @@ public class RomiButton /*extends DigitalInput*/ implements RomiSubsystem
     // updateState();
     return state == State.kRELEASED;
   }
+  
+  private void updateState()
+  {
+    // boolean currentlyPressed = get();
+    switch(state)
+    {
+      case kPRESSED:
+        if(isCurrentlyPressed)
+          state = State.kSTILL_PRESSED;
+        else
+          state = State.kRELEASED;
+        break;
+
+      case kSTILL_PRESSED:
+        if(!isCurrentlyPressed)
+          state = State.kRELEASED;
+        break;
+
+      case kRELEASED:
+        if(isCurrentlyPressed)
+          state = State.kPRESSED;
+        else
+          state = State.kSTILL_RELEASED;
+        break;
+        
+      case kSTILL_RELEASED:
+        if(isCurrentlyPressed)
+          state = State.kPRESSED; 
+        break;
+
+      default:
+        break;
+    }
+  }
 
   /**
    * Method that is called in robotPeriodic() to read inputs
@@ -113,7 +113,7 @@ public class RomiButton /*extends DigitalInput*/ implements RomiSubsystem
   @Override
   public synchronized void readPeriodicInputs()
   {
-    currentlyPressed = digitalInput.get();
+    isCurrentlyPressed = digitalInput.get();
     updateState();
   }
 
