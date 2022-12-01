@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.Constants.Drive;
+import static frc.robot.Constants.DrivetrainConstants;
 
 public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
 {
@@ -73,11 +73,9 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
     diffDrive.setSafetyEnabled(false);
 
     // Use inches as unit for encoder distances
-    leftEncoder.setDistancePerPulse((Math.PI * Drive.WHEEL_DIAMETER_INCH) / Drive.COUNTS_PER_REV);
-    rightEncoder.setDistancePerPulse((Math.PI * Drive.WHEEL_DIAMETER_INCH) / Drive.COUNTS_PER_REV);
+    leftEncoder.setDistancePerPulse((Math.PI * DrivetrainConstants.WHEEL_DIAMETER_INCH) / DrivetrainConstants.COUNTS_PER_REV);
+    rightEncoder.setDistancePerPulse((Math.PI * DrivetrainConstants.WHEEL_DIAMETER_INCH) / DrivetrainConstants.COUNTS_PER_REV);
     resetEncoders();
-    encoderResetTimer.reset();
-    encoderResetTimer.start();
 
     // Invert right side since motor is flipped
     rightMotor.setInverted(true);
@@ -196,7 +194,7 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
    */
   public double getLeftSpinDegree()
   {
-    return leftEncoderDistance / (Math.PI * Drive.ROBOT_TRACK_WIDTH_INCH) * 360.0;
+    return leftEncoderDistance / (Math.PI * DrivetrainConstants.ROBOT_TRACK_WIDTH_INCH) * 360.0;
     // return leftEncoder.getDistance() / (Math.PI * ROBOT_TRACK_WIDTH_INCH) * 360.0;
   }
 
@@ -206,7 +204,7 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
    */
   public double getRightSpinDegree()
   {
-    return rightEncoderDistance / (Math.PI * Drive.ROBOT_TRACK_WIDTH_INCH) * 360.0;
+    return rightEncoderDistance / (Math.PI * DrivetrainConstants.ROBOT_TRACK_WIDTH_INCH) * 360.0;
     // return rightEncoder.getDistance() / (Math.PI * ROBOT_TRACK_WIDTH_INCH) * 360.0;
   }
   
@@ -308,10 +306,8 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
 
   public String toString()
   {
-    String str = String.format("Left = %5.1f | Right = %5.1f", getLeftDistanceInch(), getRightDistanceInch());
+    String str = String.format("Left = %5.1f | Right = %5.1f", leftEncoderDistance, rightEncoderDistance);
     // String str = "Left = " + getLeftDistanceInch() + " | Right = " + getRightDistanceInch();
     return str;
   }
-
-
 }
