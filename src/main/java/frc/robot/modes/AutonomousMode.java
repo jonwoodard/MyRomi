@@ -41,17 +41,17 @@ public class AutonomousMode implements Mode
       switch(autoSelection)
       {
         case "A":
-          if(robotContainer.romiDrivetrain != null)
+          if(robotContainer.drivetrain != null)
           {
-            autoCommand = new AutoPlanA(robotContainer.romiDrivetrain);
+            autoCommand = new AutoPlanA(robotContainer.drivetrain);
             autoCommand.schedule();
           }
           break;
 
         case "B":
-          if(robotContainer.romiDrivetrain != null)
+          if(robotContainer.drivetrain != null)
           {
-            autoCommand = new AutoPlanB(robotContainer.romiDrivetrain);
+            autoCommand = new AutoPlanB(robotContainer.drivetrain);
             autoCommand.schedule();
           }
           break;
@@ -86,10 +86,10 @@ public class AutonomousMode implements Mode
   {
     // autoStep = 0;
     
-    if(robotContainer.romiDrivetrain != null)
+    if(robotContainer.drivetrain != null)
     {
-      robotContainer.romiDrivetrain.stopMotors();
-      robotContainer.romiDrivetrain.resetEncoders();
+      robotContainer.drivetrain.stopMotors();
+      robotContainer.drivetrain.resetEncoders();
     }
 
     autoSelection = "None";
