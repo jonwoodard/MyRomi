@@ -3,7 +3,12 @@ package frc.robot;
 // final class - cannot be inherited as a superclass
 public final class Constants
 {
-  public final static class Drive
+  static
+  {
+    System.out.println("Constants");
+  }
+
+  public final static class DrivetrainConstants
   {
     public final static int LEFT_MOTOR_PORT = 0;
     public final static int RIGHT_MOTOR_PORT = 1;
