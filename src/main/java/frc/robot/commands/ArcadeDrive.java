@@ -10,13 +10,14 @@ public class ArcadeDrive extends CommandBase
   private Supplier<Double> speed;
   private Supplier<Double> rotate;
 
-  public ArcadeDrive(RomiDrivetrain drivetrain, Supplier<Double> speed, Supplier<Double> rotate)
+  public ArcadeDrive( Supplier<Double> speed, Supplier<Double> rotate, RomiDrivetrain drivetrain)
   {
     this.drivetrain = drivetrain;
     this.speed = speed;
     this.rotate = rotate;
 
-    addRequirements(drivetrain);
+    if(this.drivetrain != null)
+      addRequirements(drivetrain);
   }
 
   @Override
@@ -26,7 +27,8 @@ public class ArcadeDrive extends CommandBase
   @Override
   public void execute()
   {
-    drivetrain.arcadeDrive(speed.get(), rotate.get());
+    if(drivetrain != null)
+      drivetrain.arcadeDrive(speed.get(), rotate.get());
   }
 
   @Override
@@ -36,6 +38,9 @@ public class ArcadeDrive extends CommandBase
   @Override
   public boolean isFinished()
   {
-    return false;
+    if(drivetrain != null)
+      return false;
+    else
+      return true;
   }
 }

@@ -16,23 +16,26 @@ public class AutoPlanB extends SequentialCommandGroup
     double speed = 0.5;
     double waitTimeSec = 0.5;
     
-    addCommands(
-      new WaitCommand(waitTimeSec),
+    if(drivetrain != null)
+    {
+      addCommands(
+        new WaitCommand(waitTimeSec),
 
-      new DriveDistance(-speed, 10.0, drivetrain),
-      // new WaitCommand(waitTimeSec),
-      // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
+        new DriveDistance(-speed, 10.0, drivetrain),
+        // new WaitCommand(waitTimeSec),
+        // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
 
-      new SpinDegrees(-speed, 180.0, drivetrain),
-      // new WaitCommand(waitTimeSec),
-      // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
+        new SpinDegrees(-speed, 180.0, drivetrain),
+        // new WaitCommand(waitTimeSec),
+        // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
 
-      new DriveDistance(-speed, 10.0, drivetrain),
-      // new WaitCommand(waitTimeSec),
-      // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
+        new DriveDistance(-speed, 10.0, drivetrain),
+        // new WaitCommand(waitTimeSec),
+        // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
 
-      new SpinDegrees(-speed, 180.0, drivetrain),
-      new PrintCommand("AutoPlanB DONE")
-    );
+        new SpinDegrees(-speed, 180.0, drivetrain),
+        new PrintCommand("AutoPlanB DONE")
+      );
+    }
   }
 }

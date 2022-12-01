@@ -22,7 +22,8 @@ public class DriveDistance extends CommandBase
     this.speed = speed;
     this.distanceInch = Math.abs(distanceInch);
 
-    addRequirements(drivetrain);
+    if(this.drivetrain != null)
+      addRequirements(drivetrain);
   }
 
   @Override
@@ -31,31 +32,39 @@ public class DriveDistance extends CommandBase
     System.out.println("DriveDistance(" + speed + ", " + distanceInch + ")");
     
     // NOTE: resetting the encoders takes time, it is not instantaneous
-    drivetrain.resetEncoders();
+    if(drivetrain != null)
+      drivetrain.resetEncoders();
   }
 
   @Override
   public void execute()
   {
-    // Wait for the encoder to reset before driving
-    if(drivetrain.isEncoderReset())
+    if(drivetrain != null)
     {
-      drivetrain.arcadeDrive(speed, 0.0);
-      isDriving = true;
+      // Wait for the encoder to reset before driving
+      if(drivetrain.isEncoderReset())
+      {
+        drivetrain.arcadeDrive(speed, 0.0);
+        isDriving = true;
+      }
+      else
+        drivetrain.stopMotors();
     }
-    else
-      drivetrain.stopMotors();
   }
 
   @Override
   public void end(boolean interrupted)
   {
-    drivetrain.stopMotors();
+    if(drivetrain != null)
+      drivetrain.stopMotors();
   }
 
   @Override
   public boolean isFinished()
   {
-    return isDriving && Math.abs(drivetrain.getAverageDistanceInch()) >= distanceInch;
+    if(drivetrain != null)
+      return isDriving && Math.abs(drivetrain.getAverageDistanceInch()) >= distanceInch;
+    else
+      return true;
   }
 }

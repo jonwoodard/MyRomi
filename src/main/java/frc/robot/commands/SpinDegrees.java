@@ -22,7 +22,8 @@ public class SpinDegrees extends CommandBase
     this.speed = speed;
     this.angleDegrees = Math.abs(angleDegrees);
 
-    addRequirements(drivetrain);
+    if(this.drivetrain != null)
+      addRequirements(drivetrain);
   }
 
   @Override
@@ -31,32 +32,39 @@ public class SpinDegrees extends CommandBase
     System.out.println("TurnDegrees(" + speed + ", " + angleDegrees + ")");
 
     // NOTE: resetting the encoders takes time, it is not instantaneous
-    drivetrain.resetEncoders();
+    if(this.drivetrain != null)
+      drivetrain.resetEncoders();
   }
 
   @Override
   public void execute()
   {
     // Wait for the encoder to reset before spinning
-    if(drivetrain.isEncoderReset())
-    { 
-      drivetrain.arcadeDrive(0.0, speed);
-      isDriving = true;
+    if(drivetrain != null)
+    {
+      if(drivetrain.isEncoderReset())
+      { 
+        drivetrain.arcadeDrive(0.0, speed);
+        isDriving = true;
+      }
+      else
+        drivetrain.stopMotors();
     }
-    else
-      drivetrain.stopMotors();
   }
 
   @Override
   public void end(boolean interrupted)
   {
-    drivetrain.stopMotors();
+    if(this.drivetrain != null)
+      drivetrain.stopMotors();
   }
 
   @Override
   public boolean isFinished()
   {
-    return isDriving && drivetrain.getAverageSpinningAngle() >= angleDegrees;
-    // return isDriving && getAverageSpinningDistance() >= (inchPerDegree * angleDegrees);
+    if(this.drivetrain != null)
+      return isDriving && drivetrain.getAverageSpinningAngle() >= angleDegrees;
+    else
+      return true;
   }
 }
