@@ -2,10 +2,13 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/RomiAccelerometer": "Subsystem",
       "/LiveWindow/RomiButton/kA": "Digital Input",
       "/LiveWindow/RomiButton/kB": "Digital Input",
       "/LiveWindow/RomiDrivetrain": "Subsystem",
       "/LiveWindow/RomiDrivetrain/Motors": "DifferentialDrive",
+      "/LiveWindow/RomiGyro4237": "Subsystem",
+      "/LiveWindow/RomiLED": "Subsystem",
       "/LiveWindow/RomiLED/kRED": "Digital Output",
       "/LiveWindow/RomiLED/kYELLOW": "Digital Output",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
