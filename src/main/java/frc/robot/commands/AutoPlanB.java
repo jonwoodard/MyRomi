@@ -21,19 +21,20 @@ public class AutoPlanB extends SequentialCommandGroup
       addCommands(
         new WaitCommand(waitTimeSec),
 
-        new DriveDistance(-speed, 10.0, drivetrain),
+        new DriveDistance(drivetrain, -speed, 10.0),
         // new WaitCommand(waitTimeSec),
         // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
 
-        new SpinDegrees(-speed, 180.0, drivetrain),
+        new SpinDegrees(drivetrain, -speed, 180.0),
         // new WaitCommand(waitTimeSec),
         // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
 
-        new DriveDistance(-speed, 10.0, drivetrain),
+        new DriveDistance(drivetrain, -speed, 10.0),
         // new WaitCommand(waitTimeSec),
         // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
 
-        new SpinDegrees(-speed, 180.0, drivetrain),
+        new SpinDegrees(drivetrain, -speed, 180.0),
+        
         new PrintCommand("AutoPlanB DONE")
       );
     }

@@ -16,7 +16,7 @@ public class DriveDistance extends CommandBase
    * @param distanceInch the distance in inches to drive (use positive value)
    * @param drivetrain the drivetrain subsystem
    */
-  public DriveDistance(double speed, double distanceInch, RomiDrivetrain drivetrain)
+  public DriveDistance(RomiDrivetrain drivetrain, double speed, double distanceInch)
   {
     this.drivetrain = drivetrain;
     this.speed = speed;

@@ -16,7 +16,7 @@ public class SpinDegrees extends CommandBase
    * @param angleDegrees the angle in degrees to spin (use positive value)
    * @param drivetrain the drivetrain subsystem
    */
-  public SpinDegrees(double speed, double angleDegrees, RomiDrivetrain drivetrain)
+  public SpinDegrees(RomiDrivetrain drivetrain, double speed, double angleDegrees)
   {
     this.drivetrain = drivetrain;
     this.speed = speed;

@@ -10,7 +10,7 @@ public class ArcadeDrive extends CommandBase
   private Supplier<Double> speed;
   private Supplier<Double> rotate;
 
-  public ArcadeDrive( Supplier<Double> speed, Supplier<Double> rotate, RomiDrivetrain drivetrain)
+  public ArcadeDrive(RomiDrivetrain drivetrain, Supplier<Double> speed, Supplier<Double> rotate)
   {
     this.drivetrain = drivetrain;
     this.speed = speed;
