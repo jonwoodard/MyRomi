@@ -10,11 +10,11 @@ public interface RomiSubsystem
   public abstract void readPeriodicInputs();
   public abstract void writePeriodicOutputs();
 
-  public default void enablePeriodicUpdates(boolean isEnabled)
-  {}
+  // public default void enablePeriodicUpdates(boolean isEnabled)
+  // {}
 
-  public default boolean isPeriodicUpdateEnabled()
-  {
-    return true;
-  }
+  // public default boolean isPeriodicUpdateEnabled()
+  // {
+  //   return true;
+  // }
 }
