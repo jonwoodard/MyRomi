@@ -36,7 +36,6 @@ public class RomiLED extends SubsystemBase /*extends DigitalOutput*/ implements 
   private double lastBlink = 0.0;
   private double blinkOnSec = 0.0;
   private double blinkOffSec = 0.0;
-  private boolean isPeriodicUpdatesEnabled = true;
 
   /**
    * Creates a romi LED (Green, Red, or Yellow)
@@ -228,31 +227,6 @@ public class RomiLED extends SubsystemBase /*extends DigitalOutput*/ implements 
     readPeriodicInputs();
     writePeriodicOutputs();
   }
-
-  // /**
-  //  * Method used to enable/disable periodic updates
-  //  * Used to disable in Test Mode for the LiveWindow
-  //  */
-  // @Override
-  // public void enablePeriodicUpdates(boolean isEnabled)
-  // {
-  //   isPeriodicUpdatesEnabled = isEnabled;
-  //   if(isPeriodicUpdatesEnabled)
-  //   {
-  //     blinkOnSec = 0.0;
-  //     blinkOffSec = 0.0;
-  //     state = State.kOFF;
-  //   }
-  // }
-
-  // /**
-  //  * Method used to check if the periodic updates are enabled
-  //  */
-  // @Override
-  // public boolean isPeriodicUpdateEnabled()
-  // {
-  //   return isPeriodicUpdatesEnabled;
-  // }
 
   @Override
   public String toString()
