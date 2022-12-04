@@ -1,12 +1,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.modes.AutonomousMode;
-import frc.robot.modes.DisabledMode;
-import frc.robot.modes.RobotMode;
-import frc.robot.modes.TeleopMode;
-import frc.robot.modes.TestMode;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot
 {
@@ -16,13 +14,12 @@ public class Robot extends TimedRobot
   }
 
   private final RobotContainer robotContainer = new RobotContainer();
+  private Command autoCommand = null;
 
-  private final RobotMode robotMode = new RobotMode(robotContainer);
-  private final DisabledMode disabledMode = new DisabledMode(robotContainer);
-  private final AutonomousMode autonomousMode = new AutonomousMode(robotContainer);
-  private final TeleopMode teleopMode = new TeleopMode(robotContainer);
-  private final TestMode testMode = new TestMode(robotContainer);
-
+  Robot()
+  {
+    LiveWindow.disableAllTelemetry();
+  }
 
   /**
    * ROBOT methods
@@ -32,14 +29,13 @@ public class Robot extends TimedRobot
   {
     System.out.println("Robot Init");
     SmartDashboard.putString("message", "Robot Init");
-    
-    robotMode.init();
   }
 
   @Override
   public void robotPeriodic() 
   {
-    robotMode.periodic();
+    if(robotContainer.useCommandScheduler())
+      CommandScheduler.getInstance().run();
   }
 
 
@@ -52,21 +48,15 @@ public class Robot extends TimedRobot
   {
     System.out.println("Disabled Mode");
     SmartDashboard.putString("message", "Disabled");
-    
-    disabledMode.init();
   }
 
   @Override
   public void disabledPeriodic() 
-  {
-    disabledMode.periodic();
-  }
+  {}
 
   @Override
   public void disabledExit()
-  {
-    disabledMode.exit();
-  }
+  {}
 
 
 
@@ -79,19 +69,23 @@ public class Robot extends TimedRobot
     System.out.println("Autonomous Mode");
     SmartDashboard.putString("message", "Autonomous");
 
-    autonomousMode.init();
+    autoCommand = robotContainer.getAutonomousCommand();
+    if(autoCommand != null)
+      autoCommand.schedule();
   }
 
   @Override
   public void autonomousPeriodic() 
-  {
-    autonomousMode.periodic();
-  }
+  {}
 
   @Override
   public void autonomousExit()
   {
-    autonomousMode.exit();
+    if(autoCommand != null)
+    {
+      autoCommand.cancel();
+      autoCommand = null;
+    }
   }
 
 
@@ -104,21 +98,15 @@ public class Robot extends TimedRobot
   {
     System.out.println("Teleop Mode");
     SmartDashboard.putString("message", "Teleop");
-
-    teleopMode.init();
   }
 
   @Override
   public void teleopPeriodic() 
-  {
-    teleopMode.periodic();
-  }
+  {}
 
   @Override
   public void teleopExit()
-  {
-    teleopMode.exit();
-  }
+  {}
 
 
 
@@ -130,19 +118,13 @@ public class Robot extends TimedRobot
   {
     System.out.println("Test Mode");
     SmartDashboard.putString("message", "Test");
-
-    testMode.init();
   }
 
   @Override
   public void testPeriodic() 
-  {
-    testMode.periodic();
-  }
+  {}
 
   @Override
   public void testExit()
-  {
-    testMode.exit();
-  }
+  {}
 }
