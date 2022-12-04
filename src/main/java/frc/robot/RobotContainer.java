@@ -62,7 +62,7 @@ public final class RobotContainer
   private final RomiLED redLED;      // Pick either Button C or Red LED
   private final RomiLED yellowLED;
   
-  public final Joystick joystick;
+  private final Joystick joystick;
   private final SendableChooser<String> autoChooser;
 
 
