@@ -1,21 +1,24 @@
 package frc.robot;
 
-import java.util.ArrayList;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.AutoPlanA;
+import frc.robot.commands.AutoPlanB;
+import frc.robot.controls.JoystickAxis;
 import frc.robot.subsystems.RomiAccelerometer;
 import frc.robot.subsystems.RomiButton;
 import frc.robot.subsystems.RomiDrivetrain;
 import frc.robot.subsystems.RomiGyro4237;
 import frc.robot.subsystems.RomiLED;
-import frc.robot.subsystems.RomiSubsystem;
 import frc.robot.subsystems.RomiButton.ButtonName;
 import frc.robot.subsystems.RomiLED.Color;
 
@@ -27,44 +30,41 @@ public final class RobotContainer
     System.out.println("RobotContainer");
   }
 
-  private final boolean useFullRobot          = true;  // if true, then ALL of the following booleans are automatically true
+  private final boolean useFullRobot          = false;  // if true, then ALL of the following booleans are automatically true
 
-  private final boolean useRomiDrivetrain     = true;
-  private final boolean useJoystick           = true;
+  private final boolean useRomiDrivetrain     = false;
   private final boolean useRomiGyro           = true;
   private final boolean useRomiAccelerometer  = true;
   private final boolean useRomiButtonA        = true;
-  private final boolean useRomiButtonB        = true;
-  private final boolean useRomiLEDRed         = true;
+  private final boolean useRomiButtonB        = true;   // Pick either Button B or Green LED
+  // private final boolean useRomiButtonC        = false;  // Pick either Button C or Red LED
+  // private final boolean useRomiLEDGreen       = false;  // Pick either Button B or Green LED
+  private final boolean useRomiLEDRed         = true;   // Pick either Button C or Red LED
   private final boolean useRomiLEDYellow      = true;
+
+  private final boolean useJoystick           = true;
   private final boolean useAutoChooser        = true;
 
   private final boolean useCommandScheduler   = true;  // convenient way to disable the Command Scheduler
 
 
-  public final RomiDrivetrain drivetrain;// = new RomiDrivetrain();
-  public final Joystick joystick;// = new Joystick(0);
-
-  // https://docs.wpilib.org/en/stable/docs/romi-robot/hardware-support.html
-  public final RomiGyro4237 gyro;// = new RomiGyro();
-  public final RomiAccelerometer accelerometer;// = new BuiltInAccelerometer();
+  private final RomiDrivetrain drivetrain;
+  private final RomiGyro4237 gyro;  // https://docs.wpilib.org/en/stable/docs/romi-robot/hardware-support.html
+  private final RomiAccelerometer accelerometer;
   
-  // *** Buttons and LEDs
-  public final RomiButton buttonA;// = new RomiButton(ButtonName.kA);
+  // *** RomiButtons ***
+  private final RomiButton buttonA;
+  private final RomiButton buttonB;  // Pick either Button B or Green LED
+  // private final RomiButton buttonC;  // Pick either Button C or Red LED
 
-  // Pick either Button B or Green LED
-  public final RomiButton buttonB;// = new RomiButton(ButtonName.kB);
-  // private final RomiLED green = new RomiLED(Color.kGREEN);
+  // *** RomiLEDS ***
+  // private final RomiLED greenLED;    // Pick either Button B or Green LED
+  private final RomiLED redLED;      // Pick either Button C or Red LED
+  private final RomiLED yellowLED;
+  
+  public final Joystick joystick;
+  private final SendableChooser<String> autoChooser;
 
-  // Pick either Button C or Red LED
-  // private final RomiButton buttonC = new RomiButton(Button.kC);
-  public final RomiLED redLED;// = new RomiLED(Color.kRED);
-
-  public final RomiLED yellowLED;// = new RomiLED(Color.kYELLOW);
-
-  public final SendableChooser<String> autoChooser;// = new SendableChooser<>();
-
-  public final ArrayList<RomiSubsystem> allRomiSubsystems = new ArrayList<>();
 
   /**
    * Contruct all the subsytems and components of the robot
@@ -73,17 +73,17 @@ public final class RobotContainer
   RobotContainer()
   {
     drivetrain      = (useFullRobot || useRomiDrivetrain)     ? new RomiDrivetrain()          : null;
-    joystick        = (useFullRobot || useJoystick)           ? new Joystick(0)               : null;
     gyro            = (useFullRobot || useRomiGyro)           ? new RomiGyro4237()            : null;
     accelerometer   = (useFullRobot || useRomiAccelerometer)  ? new RomiAccelerometer()       : null;
     buttonA         = (useFullRobot || useRomiButtonA)        ? new RomiButton(ButtonName.kA) : null;
     buttonB         = (useFullRobot || useRomiButtonB)        ? new RomiButton(ButtonName.kB) : null;
     redLED          = (useFullRobot || useRomiLEDRed)         ? new RomiLED(Color.kRED)       : null;
     yellowLED       = (useFullRobot || useRomiLEDYellow)      ? new RomiLED(Color.kYELLOW)    : null;
+
+    joystick        = (useFullRobot || useJoystick)           ? new Joystick(0)               : null;
     autoChooser     = (useFullRobot || useAutoChooser)        ? new SendableChooser<>()       : null;
 
     configureAutoChooser();
-    configureRomiSubsystem();
     configureBindings();
   }
 
@@ -102,27 +102,6 @@ public final class RobotContainer
   }
 
   /**
-   * Method to add the romi subsystems to the list of periodic updates
-   */
-  private void configureRomiSubsystem()
-  {
-    if(drivetrain != null)
-      allRomiSubsystems.add(drivetrain);
-    if(gyro != null)
-      allRomiSubsystems.add(gyro);
-    if(accelerometer != null)
-      allRomiSubsystems.add(accelerometer);
-    if(redLED != null)
-      allRomiSubsystems.add(redLED);
-    if(yellowLED != null)
-      allRomiSubsystems.add(yellowLED);
-    if(buttonA != null)
-      allRomiSubsystems.add(buttonA);
-    if(buttonB != null)
-      allRomiSubsystems.add(buttonB);
-  }
-
-  /**
    * Method to configure ALL bindings for buttons, axis, joysticks, etc.
    */
   private void configureBindings()
@@ -136,6 +115,23 @@ public final class RobotContainer
    */
   private void configureDriverBindings()
   {
+    if(joystick != null && drivetrain != null)
+    {
+      JoystickButton driverButtonA = new JoystickButton(joystick, 1);
+      driverButtonA.whenPressed(() -> drivetrain.toggleSpeedFactor(), drivetrain);
+
+      JoystickAxis leftYAxis = new JoystickAxis(joystick, 1, true);
+      JoystickAxis rightXAxis = new JoystickAxis(joystick, 4, false);
+      drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, leftYAxis, rightXAxis));
+      // drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, leftYAxis, rightXAxis));
+    }
+  }
+
+  /**
+   * Method to configure bindings for Driver controls
+   */
+  private void configureDriverBindings2()
+  {
     // using lambda expressions
 
     if(joystick != null && drivetrain != null)
@@ -145,7 +141,7 @@ public final class RobotContainer
 
       Supplier<Double> leftYAxis = () -> -joystick.getRawAxis(1);
       Supplier<Double> rightXAxis = () -> joystick.getRawAxis(4);
-      drivetrain.setDefaultCommand(new ArcadeDrive(leftYAxis, rightXAxis, drivetrain));
+      drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, leftYAxis, rightXAxis));
       // drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> -joystick.getRawAxis(1), () -> joystick.getRawAxis(4)));
     }
   }
@@ -170,6 +166,41 @@ public final class RobotContainer
       romiButtonB.whenPressed(new PrintCommand("RomiButton B Pressed"));
       romiButtonB.whenReleased(new PrintCommand("RomiButton B Released"));
     }
+  }
+
+  public Command getAutonomousCommand()
+  {
+    Command autoCommand = null;
+
+    if(autoChooser != null)
+    {
+      String autoSelection = autoChooser.getSelected();
+      System.out.println("Auto selected: " + autoSelection);
+
+      switch(autoSelection)
+      {
+        case "A":
+          if(drivetrain != null)
+          {
+            autoCommand = new AutoPlanA(drivetrain);
+            autoCommand.schedule();
+          }
+          break;
+
+        case "B":
+          if(drivetrain != null)
+          {
+            autoCommand = new AutoPlanB(drivetrain);
+            autoCommand.schedule();
+          }
+          break;
+
+        default:
+          autoCommand = null;
+          break;
+      }
+    }
+    return autoCommand;
   }
 
   public boolean useCommandScheduler()
