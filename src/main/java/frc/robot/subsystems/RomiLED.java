@@ -2,9 +2,11 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
+public class RomiLED extends SubsystemBase /*extends DigitalOutput*/ implements RomiSubsystem
 {
   static
   {
@@ -208,39 +210,49 @@ public class RomiLED /*extends DigitalOutput*/ implements RomiSubsystem
   @Override
   public synchronized void writePeriodicOutputs()
   {
-    if(isBlinking())
-      updateBlink();
-    
-    if(state == State.kON || state == State.kBLINK_ON)
-      digitalOutput.set(true);
-    else
-      digitalOutput.set(false);
-  }
-
-  /**
-   * Method used to enable/disable periodic updates
-   * Used to disable in Test Mode for the LiveWindow
-   */
-  @Override
-  public void enablePeriodicUpdates(boolean isEnabled)
-  {
-    isPeriodicUpdatesEnabled = isEnabled;
-    if(isPeriodicUpdatesEnabled)
+    if(!DriverStation.isTest())
     {
-      blinkOnSec = 0.0;
-      blinkOffSec = 0.0;
-      state = State.kOFF;
+      if(isBlinking())
+        updateBlink();
+      
+      if(state == State.kON || state == State.kBLINK_ON)
+        digitalOutput.set(true);
+      else
+        digitalOutput.set(false);
     }
   }
 
-  /**
-   * Method used to check if the periodic updates are enabled
-   */
   @Override
-  public boolean isPeriodicUpdateEnabled()
+  public void periodic()
   {
-    return isPeriodicUpdatesEnabled;
+    readPeriodicInputs();
+    writePeriodicOutputs();
   }
+
+  // /**
+  //  * Method used to enable/disable periodic updates
+  //  * Used to disable in Test Mode for the LiveWindow
+  //  */
+  // @Override
+  // public void enablePeriodicUpdates(boolean isEnabled)
+  // {
+  //   isPeriodicUpdatesEnabled = isEnabled;
+  //   if(isPeriodicUpdatesEnabled)
+  //   {
+  //     blinkOnSec = 0.0;
+  //     blinkOffSec = 0.0;
+  //     state = State.kOFF;
+  //   }
+  // }
+
+  // /**
+  //  * Method used to check if the periodic updates are enabled
+  //  */
+  // @Override
+  // public boolean isPeriodicUpdateEnabled()
+  // {
+  //   return isPeriodicUpdatesEnabled;
+  // }
 
   @Override
   public String toString()

@@ -2,9 +2,15 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.romi.RomiGyro;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class RomiGyro4237 implements RomiSubsystem
+public class RomiGyro4237 extends SubsystemBase implements RomiSubsystem
 {
+  static
+  {
+    System.out.println("RomiGyro4237");
+  }
+
   private final RomiGyro gyro = new RomiGyro();
   private final Timer gyroResetTimer = new Timer();
   
@@ -85,6 +91,13 @@ public class RomiGyro4237 implements RomiSubsystem
     }
   }
 
+  @Override
+  public void periodic()
+  {
+    readPeriodicInputs();
+    writePeriodicOutputs();
+  }
+  
   @Override
   public String toString()
   {

@@ -304,6 +304,13 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
     diffDrive.feedWatchdog();
   }
 
+  @Override
+  public void periodic()
+  {
+    readPeriodicInputs();
+    writePeriodicOutputs();
+  }
+
   public String toString()
   {
     String str = String.format("Left = %5.1f | Right = %5.1f", leftEncoderDistance, rightEncoderDistance);

@@ -2,8 +2,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class RomiButton /*extends DigitalInput*/ implements RomiSubsystem
+public class RomiButton extends SubsystemBase /*extends DigitalInput*/ implements RomiSubsystem
 {
   static
   {
@@ -123,6 +124,13 @@ public class RomiButton /*extends DigitalInput*/ implements RomiSubsystem
   @Override
   public synchronized void writePeriodicOutputs()
   {}
+
+  @Override
+  public void periodic()
+  {
+    readPeriodicInputs();
+    writePeriodicOutputs();
+  }
 
   @Override
   public String toString()

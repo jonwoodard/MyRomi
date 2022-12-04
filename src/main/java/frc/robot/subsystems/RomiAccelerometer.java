@@ -2,9 +2,15 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class RomiAccelerometer implements RomiSubsystem
+public class RomiAccelerometer extends SubsystemBase implements RomiSubsystem
 {
+  static
+  {
+    System.out.println("RomiAccelerometer");
+  }
+  
   private final BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
 
   private double x;
@@ -60,6 +66,13 @@ public class RomiAccelerometer implements RomiSubsystem
   @Override
   public synchronized void writePeriodicOutputs()
   {}
+
+  @Override
+  public void periodic()
+  {
+    readPeriodicInputs();
+    writePeriodicOutputs();
+  }
 
   @Override
   public String toString()
