@@ -62,7 +62,7 @@ public class DriveDistance extends CommandBase
   @Override
   public boolean isFinished()
   {
-    if(drivetrain != null)
+    if(drivetrain != null && speed != 0.0)
       return isDriving && Math.abs(drivetrain.getAverageDistanceInch()) >= distanceInch;
     else
       return true;

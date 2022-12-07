@@ -62,7 +62,7 @@ public class SpinDegrees extends CommandBase
   @Override
   public boolean isFinished()
   {
-    if(this.drivetrain != null)
+    if(this.drivetrain != null && speed != 0.0)
       return isDriving && drivetrain.getAverageSpinningAngle() >= angleDegrees;
     else
       return true;
