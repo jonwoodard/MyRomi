@@ -19,7 +19,8 @@ public class AutoPlanA extends SequentialCommandGroup
     if(drivetrain != null)
     {
       addCommands(
-        new WaitCommand(waitTimeSec),
+        new StopDrive(drivetrain),
+        // new WaitCommand(waitTimeSec),
 
         new DriveDistance(drivetrain, speed, 10.0),
         // new WaitCommand(waitTimeSec),
