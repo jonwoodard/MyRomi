@@ -52,8 +52,8 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
   // Periodic INPUT
   private boolean resetEncoders;
   private boolean isEncoderReset;
-  private double leftEncoderDistance;
-  private double rightEncoderDistance;
+  private double leftEncoderDistanceInch;
+  private double rightEncoderDistanceInch;
   private int leftEncoderRaw;
   private int rightEncoderRaw;
 
@@ -194,7 +194,7 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
    */
   public double getLeftSpinDegree()
   {
-    return leftEncoderDistance / (Math.PI * DrivetrainConstants.ROBOT_TRACK_WIDTH_INCH) * 360.0;
+    return leftEncoderDistanceInch / (Math.PI * DrivetrainConstants.ROBOT_TRACK_WIDTH_INCH) * 360.0;
     // return leftEncoder.getDistance() / (Math.PI * ROBOT_TRACK_WIDTH_INCH) * 360.0;
   }
 
@@ -204,7 +204,7 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
    */
   public double getRightSpinDegree()
   {
-    return rightEncoderDistance / (Math.PI * DrivetrainConstants.ROBOT_TRACK_WIDTH_INCH) * 360.0;
+    return rightEncoderDistanceInch / (Math.PI * DrivetrainConstants.ROBOT_TRACK_WIDTH_INCH) * 360.0;
     // return rightEncoder.getDistance() / (Math.PI * ROBOT_TRACK_WIDTH_INCH) * 360.0;
   }
   
@@ -214,7 +214,7 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
    */
   public double getLeftDistanceInch() 
   {
-    return leftEncoderDistance;
+    return leftEncoderDistanceInch;
     // return leftEncoder.getDistance();
   }
 
@@ -224,7 +224,7 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
    */
   public double getRightDistanceInch() 
   {
-    return rightEncoderDistance;
+    return rightEncoderDistanceInch;
     // return rightEncoder.getDistance();
   }
 
@@ -234,7 +234,7 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
    */
   public double getAverageDistanceInch()
   {
-    return (leftEncoderDistance + rightEncoderDistance) / 2.0;
+    return (leftEncoderDistanceInch + rightEncoderDistanceInch) / 2.0;
   }
 
   /**
@@ -254,8 +254,8 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
   @Override
   public synchronized void readPeriodicInputs()
   {
-    leftEncoderDistance = leftEncoder.getDistance();
-    rightEncoderDistance = rightEncoder.getDistance();
+    leftEncoderDistanceInch = leftEncoder.getDistance();
+    rightEncoderDistanceInch = rightEncoder.getDistance();
     leftEncoderRaw = leftEncoder.get();
     rightEncoderRaw = rightEncoder.get();
   }
@@ -313,7 +313,7 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
 
   public String toString()
   {
-    String str = String.format("Left = %5.1f | Right = %5.1f", leftEncoderDistance, rightEncoderDistance);
+    String str = String.format("Left = %5.1f | Right = %5.1f", leftEncoderDistanceInch, rightEncoderDistanceInch);
     // String str = "Left = " + getLeftDistanceInch() + " | Right = " + getRightDistanceInch();
     return str;
   }
