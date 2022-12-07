@@ -30,9 +30,9 @@ public final class RobotContainer
     System.out.println("RobotContainer");
   }
 
-  private final boolean useFullRobot          = false;  // if true, then ALL of the following booleans are automatically true
+  private final boolean useFullRobot          = true;  // if true, then ALL of the following booleans are automatically true
 
-  private final boolean useRomiDrivetrain     = false;
+  private final boolean useRomiDrivetrain     = true;
   private final boolean useRomiGyro           = true;
   private final boolean useRomiAccelerometer  = true;
   private final boolean useRomiButtonA        = true;
@@ -183,7 +183,6 @@ public final class RobotContainer
           if(drivetrain != null)
           {
             autoCommand = new AutoPlanA(drivetrain);
-            autoCommand.schedule();
           }
           break;
 
@@ -191,7 +190,6 @@ public final class RobotContainer
           if(drivetrain != null)
           {
             autoCommand = new AutoPlanB(drivetrain);
-            autoCommand.schedule();
           }
           break;
 
