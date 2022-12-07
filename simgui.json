@@ -3,6 +3,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/RomiAccelerometer": "Subsystem",
+      "/LiveWindow/RomiButton": "Subsystem",
       "/LiveWindow/RomiButton/kA": "Digital Input",
       "/LiveWindow/RomiButton/kB": "Digital Input",
       "/LiveWindow/RomiDrivetrain": "Subsystem",
