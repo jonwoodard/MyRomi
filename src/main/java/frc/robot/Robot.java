@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -68,7 +69,10 @@ public class Robot extends TimedRobot
 
     autoCommand = robotContainer.getAutonomousCommand();
     if(autoCommand != null)
+    {
+      // autoCommand.withInterrupt(() -> !RobotState.isAutonomous()).schedule();
       autoCommand.schedule();
+    }
   }
 
   @Override
@@ -80,6 +84,7 @@ public class Robot extends TimedRobot
   {
     if(autoCommand != null)
     {
+      // CommandScheduler.getInstance().cancelAll();
       autoCommand.cancel();
       autoCommand = null;
     }
