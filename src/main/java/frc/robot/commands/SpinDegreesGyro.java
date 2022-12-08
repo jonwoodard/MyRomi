@@ -2,13 +2,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.RomiDrivetrain;
+import frc.robot.subsystems.RomiGyro4237;
 
-public class SpinDegrees extends CommandBase
+public class SpinDegreesGyro extends CommandBase
 {
   private final RomiDrivetrain drivetrain;
+  private final RomiGyro4237 gyro;
   private final double speed;
   private final double angleDegrees;
-  private boolean isDriving = false;
+  private double initialAngleDegrees;
 
   /**
    * Command that spins the robot a given number of degrees
@@ -16,14 +18,16 @@ public class SpinDegrees extends CommandBase
    * @param angleDegrees the angle in degrees to spin (use positive value)
    * @param drivetrain the drivetrain subsystem
    */
-  public SpinDegrees(RomiDrivetrain drivetrain, double speed, double angleDegrees)
+  public SpinDegreesGyro(RomiDrivetrain drivetrain, RomiGyro4237 gyro, double speed, double angleDegrees)
   {
     this.drivetrain = drivetrain;
+    this.gyro = gyro;
     this.speed = speed;
     this.angleDegrees = Math.abs(angleDegrees);
+    
 
-    if(this.drivetrain != null)
-      addRequirements(drivetrain);
+    if(this.drivetrain != null && this.gyro != null)
+      addRequirements(drivetrain, gyro);
   }
 
   @Override
@@ -32,8 +36,8 @@ public class SpinDegrees extends CommandBase
     System.out.println("TurnDegrees(" + speed + ", " + angleDegrees + ")");
 
     // NOTE: resetting the encoders takes time, it is not instantaneous
-    if(drivetrain != null)
-      drivetrain.resetEncoders();
+    if(gyro != null)
+      initialAngleDegrees = gyro.getAngle();
   }
 
   @Override
@@ -42,13 +46,7 @@ public class SpinDegrees extends CommandBase
     // Wait for the encoder to reset before spinning
     if(drivetrain != null)
     {
-      if(drivetrain.isEncoderReset())
-      { 
-        drivetrain.arcadeDrive(0.0, speed);
-        isDriving = true;
-      }
-      else
-        drivetrain.stopMotors();
+      drivetrain.arcadeDrive(0.0, speed);
     }
   }
 
@@ -62,8 +60,8 @@ public class SpinDegrees extends CommandBase
   @Override
   public boolean isFinished()
   {
-    if(drivetrain != null && speed != 0.0)
-      return isDriving && drivetrain.getAverageSpinningAngle() >= angleDegrees;
+    if(drivetrain != null && gyro != null && speed != 0.0)
+      return Math.abs(gyro.getAngle() - initialAngleDegrees) >= angleDegrees;
     else
       return true;
   }

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoPlanA;
 import frc.robot.commands.AutoPlanB;
+import frc.robot.commands.AutoPlanC;
 import frc.robot.controls.JoystickAxis;
 import frc.robot.subsystems.RomiAccelerometer;
 import frc.robot.subsystems.RomiButton;
@@ -103,6 +104,7 @@ public final class RobotContainer
       autoChooser.setDefaultOption("Auto None", "None");
       autoChooser.addOption("Auto A", "A");
       autoChooser.addOption("Auto B", "B");
+      autoChooser.addOption("Auto C", "C");
       SmartDashboard.putData("Auto choices", autoChooser);
     }
   }
@@ -187,18 +189,19 @@ public final class RobotContainer
       {
         case "A":
           if(drivetrain != null)
-          {
             autoCommand = new AutoPlanA(drivetrain);
-          }
           break;
 
         case "B":
           if(drivetrain != null)
-          {
             autoCommand = new AutoPlanB(drivetrain);
-          }
           break;
 
+        case "C":
+          if(drivetrain != null)
+            autoCommand = new AutoPlanC(drivetrain, gyro);
+          break;
+          
         default:
           autoCommand = null;
           break;
