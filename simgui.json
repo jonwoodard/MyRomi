@@ -12,6 +12,7 @@
       "/LiveWindow/RomiLED": "Subsystem",
       "/LiveWindow/RomiLED/kRED": "Digital Output",
       "/LiveWindow/RomiLED/kYELLOW": "Digital Output",
+      "/LiveWindow/SubsystemManager": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
