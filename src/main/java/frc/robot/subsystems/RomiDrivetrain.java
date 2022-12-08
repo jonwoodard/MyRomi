@@ -84,6 +84,7 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
     SendableRegistry.addLW(diffDrive, "RomiDrivetrain", "Motors");
     SendableRegistry.addLW(leftEncoder, "RomiDrivetrain", "Encoder Left");
     SendableRegistry.addLW(rightEncoder, "RomiDrivetrain", "Encoder Right");
+    SubsystemManager.addRomiSubsystem(this);
 
     diffDrive.setSafetyEnabled(true);
   }
@@ -307,8 +308,8 @@ public class RomiDrivetrain extends SubsystemBase implements RomiSubsystem
   @Override
   public void periodic()
   {
-    readPeriodicInputs();
-    writePeriodicOutputs();
+    // readPeriodicInputs();
+    // writePeriodicOutputs();
   }
 
   public String toString()

@@ -25,6 +25,7 @@ public class RomiGyro4237 extends SubsystemBase implements RomiSubsystem
   public RomiGyro4237()
   {
     reset();
+    SubsystemManager.addRomiSubsystem(this);
   }
 
   /**
@@ -94,8 +95,8 @@ public class RomiGyro4237 extends SubsystemBase implements RomiSubsystem
   @Override
   public void periodic()
   {
-    readPeriodicInputs();
-    writePeriodicOutputs();
+    // readPeriodicInputs();
+    // writePeriodicOutputs();
   }
   
   @Override

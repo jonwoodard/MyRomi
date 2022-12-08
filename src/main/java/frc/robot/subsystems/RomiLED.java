@@ -51,6 +51,7 @@ public class RomiLED extends SubsystemBase /*extends DigitalOutput*/ implements 
     // Create an "LEDs" subsystem in the LiveWindow, along with ".name" field for the LED
     // Switch to Test mode to create a ".controllable" field
     SendableRegistry.addLW(digitalOutput, "RomiLED", color.toString());
+    SubsystemManager.addRomiSubsystem(this);
   }
 
   /**
@@ -224,8 +225,8 @@ public class RomiLED extends SubsystemBase /*extends DigitalOutput*/ implements 
   @Override
   public void periodic()
   {
-    readPeriodicInputs();
-    writePeriodicOutputs();
+    // readPeriodicInputs();
+    // writePeriodicOutputs();
   }
 
   @Override
