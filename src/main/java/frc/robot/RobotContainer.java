@@ -19,6 +19,7 @@ import frc.robot.subsystems.RomiButton;
 import frc.robot.subsystems.RomiDrivetrain;
 import frc.robot.subsystems.RomiGyro4237;
 import frc.robot.subsystems.RomiLED;
+import frc.robot.subsystems.SubsystemManager;
 import frc.robot.subsystems.RomiButton.ButtonName;
 import frc.robot.subsystems.RomiLED.Color;
 
@@ -30,23 +31,28 @@ public final class RobotContainer
     System.out.println("RobotContainer");
   }
 
-  private final boolean useFullRobot          = true;  // if true, then ALL of the following booleans are automatically true
+  private boolean yes = true;
+  private boolean no = false;
 
-  private final boolean useRomiDrivetrain     = true;
-  private final boolean useRomiGyro           = true;
-  private final boolean useRomiAccelerometer  = true;
-  private final boolean useRomiButtonA        = true;
-  private final boolean useRomiButtonB        = true;   // Pick either Button B or Green LED
+  private final boolean useFullRobot          = yes;  // if true, then ALL of the following booleans are automatically true
+
+  private final boolean useRomiDrivetrain     = yes;
+  private final boolean useRomiGyro           = yes;
+  private final boolean useRomiAccelerometer  = yes;
+  private final boolean useRomiButtonA        = yes;
+  private final boolean useRomiButtonB        = yes;   // Pick either Button B or Green LED
   // private final boolean useRomiButtonC        = false;  // Pick either Button C or Red LED
   // private final boolean useRomiLEDGreen       = false;  // Pick either Button B or Green LED
-  private final boolean useRomiLEDRed         = true;   // Pick either Button C or Red LED
-  private final boolean useRomiLEDYellow      = true;
+  private final boolean useRomiLEDRed         = yes;   // Pick either Button C or Red LED
+  private final boolean useRomiLEDYellow      = yes;
 
-  private final boolean useJoystick           = true;
-  private final boolean useAutoChooser        = true;
+  private final boolean useJoystick           = yes;
+  private final boolean useAutoChooser        = yes;
 
-  private final boolean useCommandScheduler   = true;  // convenient way to disable the Command Scheduler
+  private final boolean useCommandScheduler   = yes;  // convenient way to disable the Command Scheduler
 
+
+  private final SubsystemManager subsystemManager = new SubsystemManager();
 
   private final RomiDrivetrain drivetrain;
   private final RomiGyro4237 gyro;  // https://docs.wpilib.org/en/stable/docs/romi-robot/hardware-support.html
