@@ -8,7 +8,7 @@ public class SpinDegrees extends CommandBase
   private final RomiDrivetrain drivetrain;
   private final double speed;
   private final double angleDegrees;
-  private boolean isDriving = false;
+  private boolean isSpinning = false;
 
   /**
    * Command that spins the robot a given number of degrees
@@ -45,7 +45,7 @@ public class SpinDegrees extends CommandBase
       if(drivetrain.isEncoderReset())
       { 
         drivetrain.arcadeDrive(0.0, speed);
-        isDriving = true;
+        isSpinning = true;
       }
       else
         drivetrain.stopMotors();
@@ -63,7 +63,7 @@ public class SpinDegrees extends CommandBase
   public boolean isFinished()
   {
     if(drivetrain != null && speed != 0.0)
-      return isDriving && drivetrain.getAverageSpinningAngle() >= angleDegrees;
+      return isSpinning && drivetrain.getAverageSpinningAngle() >= angleDegrees;
     else
       return true;
   }
