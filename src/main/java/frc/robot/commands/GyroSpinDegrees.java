@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.RomiDrivetrain;
 import frc.robot.subsystems.RomiGyro4237;
 
-public class SpinDegreesGyro extends CommandBase
+public class GyroSpinDegrees extends CommandBase
 {
   private final RomiDrivetrain drivetrain;
   private final RomiGyro4237 gyro;
@@ -18,7 +18,7 @@ public class SpinDegreesGyro extends CommandBase
    * @param angleDegrees the angle in degrees to spin (use positive value)
    * @param drivetrain the drivetrain subsystem
    */
-  public SpinDegreesGyro(RomiDrivetrain drivetrain, RomiGyro4237 gyro, double speed, double angleDegrees)
+  public GyroSpinDegrees(RomiDrivetrain drivetrain, RomiGyro4237 gyro, double speed, double angleDegrees)
   {
     this.drivetrain = drivetrain;
     this.gyro = gyro;
@@ -33,7 +33,7 @@ public class SpinDegreesGyro extends CommandBase
   @Override
   public void initialize()
   {
-    System.out.println("TurnDegrees(" + speed + ", " + angleDegrees + ")");
+    System.out.println("SpinDegreesGyro(" + speed + ", " + angleDegrees + ")");
 
     // NOTE: resetting the encoders takes time, it is not instantaneous
     if(gyro != null)
