@@ -26,7 +26,7 @@ public class AutoPlanC extends SequentialCommandGroup
         // new WaitCommand(waitTimeSec),
         // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
 
-        new SpinDegreesGyro(drivetrain, gyro, speed, 180.0),
+        new GyroSpinDegrees(drivetrain, gyro, speed, 180.0),
         // new WaitCommand(waitTimeSec),
         // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
 
@@ -34,7 +34,7 @@ public class AutoPlanC extends SequentialCommandGroup
         // new WaitCommand(waitTimeSec),
         // new PrintCommand("Left Dist = " + drivetrain.getLeftDistanceInch() + " Right Dist = " + drivetrain.getRightDistanceInch()),
 
-        new SpinDegreesGyro(drivetrain, gyro, speed, 180.0),
+        new GyroSpinDegrees(drivetrain, gyro, speed, 180.0),
         
         new PrintCommand("AutoPlanC DONE")
       );
