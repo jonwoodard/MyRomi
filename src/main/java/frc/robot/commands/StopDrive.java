@@ -18,6 +18,8 @@ public class StopDrive extends CommandBase
   @Override
   public void initialize()
   {
+    System.out.println("StopDrive()");
+
     if(drivetrain != null)
       drivetrain.stopMotors();
   }

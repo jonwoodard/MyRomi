@@ -29,7 +29,7 @@ public class SpinDegrees extends CommandBase
   @Override
   public void initialize()
   {
-    System.out.println("TurnDegrees(" + speed + ", " + angleDegrees + ")");
+    System.out.println("SpinDegrees(" + speed + ", " + angleDegrees + ")");
 
     // NOTE: resetting the encoders takes time, it is not instantaneous
     if(drivetrain != null)
