@@ -1,6 +1,6 @@
 package frc.robot;
 
-import java.util.function.Supplier;
+import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,12 +20,12 @@ import frc.robot.subsystems.RomiButton;
 import frc.robot.subsystems.RomiDrivetrain;
 import frc.robot.subsystems.RomiGyro4237;
 import frc.robot.subsystems.RomiLED;
-import frc.robot.subsystems.SubsystemManager;
+import frc.robot.subsystems.RomiSubsystem;
 import frc.robot.subsystems.RomiButton.ButtonName;
 import frc.robot.subsystems.RomiLED.Color;
 
 // final class - cannot be inherited as a superclass
-public final class RobotContainer 
+public final class RobotContainer
 {
   static
   {
@@ -53,8 +53,6 @@ public final class RobotContainer
   private final boolean useCommandScheduler   = yes;  // convenient way to disable the Command Scheduler
 
 
-  private final SubsystemManager subsystemManager = new SubsystemManager();
-
   private final RomiDrivetrain drivetrain;
   private final RomiGyro4237 gyro;  // https://docs.wpilib.org/en/stable/docs/romi-robot/hardware-support.html
   private final RomiAccelerometer accelerometer;
@@ -71,6 +69,8 @@ public final class RobotContainer
   
   private final Joystick joystick;
   private final SendableChooser<String> autoChooser;
+
+  final static ArrayList<RomiSubsystem> allRomiSubsystems = new ArrayList<>();
 
 
   /**
@@ -90,8 +90,27 @@ public final class RobotContainer
     joystick        = (useFullRobot || useJoystick)           ? new Joystick(0)               : null;
     autoChooser     = (useFullRobot || useAutoChooser)        ? new SendableChooser<>()       : null;
 
+    configureRomiSubsystems();
     configureAutoChooser();
     configureBindings();
+  }
+
+  private void configureRomiSubsystems()
+  {
+    if(drivetrain != null)
+      allRomiSubsystems.add(drivetrain);
+    if(gyro != null)
+      allRomiSubsystems.add(gyro);
+    if(accelerometer != null)
+      allRomiSubsystems.add(accelerometer);
+    if(yellowLED != null)
+      allRomiSubsystems.add(yellowLED);
+    if(redLED != null)
+      allRomiSubsystems.add(redLED);
+    if(buttonA != null)
+      allRomiSubsystems.add(buttonA);
+    if(buttonB != null)
+      allRomiSubsystems.add(buttonB);
   }
 
   /**
@@ -135,24 +154,24 @@ public final class RobotContainer
     }
   }
 
-  /**
-   * Method to configure bindings for Driver controls
-   */
-  private void configureDriverBindings2()
-  {
-    // using lambda expressions
+  // /**
+  //  * Method to configure bindings for Driver controls
+  //  */
+  // private void configureDriverBindings2()
+  // {
+  //   // using lambda expressions
 
-    if(joystick != null && drivetrain != null)
-    {
-      Button driverButtonA = new Button(() -> joystick.getRawButtonPressed(1));
-      driverButtonA.whenPressed(() -> drivetrain.toggleSpeedFactor(), drivetrain);
+  //   if(joystick != null && drivetrain != null)
+  //   {
+  //     Button driverButtonA = new Button(() -> joystick.getRawButtonPressed(1));
+  //     driverButtonA.whenPressed(() -> drivetrain.toggleSpeedFactor(), drivetrain);
 
-      Supplier<Double> leftYAxis = () -> -joystick.getRawAxis(1);
-      Supplier<Double> rightXAxis = () -> joystick.getRawAxis(4);
-      drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, leftYAxis, rightXAxis));
-      // drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> -joystick.getRawAxis(1), () -> joystick.getRawAxis(4)));
-    }
-  }
+  //     Supplier<Double> leftYAxis = () -> -joystick.getRawAxis(1);
+  //     Supplier<Double> rightXAxis = () -> joystick.getRawAxis(4);
+  //     drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, leftYAxis, rightXAxis));
+  //     // drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> -joystick.getRawAxis(1), () -> joystick.getRawAxis(4)));
+  //   }
+  // }
 
   /**
    * Method to configure bindings for Romi Buttons
@@ -198,7 +217,7 @@ public final class RobotContainer
           break;
 
         case "C":
-          if(drivetrain != null)
+          if(drivetrain != null && gyro != null)
             autoCommand = new AutoPlanC(drivetrain, gyro);
           break;
           
