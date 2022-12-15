@@ -42,7 +42,6 @@ public class RomiButton extends SubsystemBase /*extends DigitalInput*/ implement
     this.button = button;
 
     SendableRegistry.addLW(digitalInput, "RomiButton", button.toString());
-    SubsystemManager.addRomiSubsystem(this);
   }
 
   /**

@@ -25,7 +25,6 @@ public class RomiGyro4237 extends SubsystemBase implements RomiSubsystem
   public RomiGyro4237()
   {
     reset();
-    SubsystemManager.addRomiSubsystem(this);
   }
 
   /**

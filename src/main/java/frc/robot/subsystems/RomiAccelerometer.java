@@ -20,7 +20,6 @@ public class RomiAccelerometer extends SubsystemBase implements RomiSubsystem
   public RomiAccelerometer()
   {
     SendableRegistry.addLW(accelerometer, "RomiAccelerometer", "Accelerometer");
-    SubsystemManager.addRomiSubsystem(this);
   }
 
   /**
