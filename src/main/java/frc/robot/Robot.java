@@ -1,10 +1,10 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.RomiSubsystem;
 
 public class Robot extends TimedRobot
 {
@@ -32,8 +32,14 @@ public class Robot extends TimedRobot
   @Override
   public void robotPeriodic() 
   {
+    for(RomiSubsystem rs : RobotContainer.allRomiSubsystems)
+      rs.readPeriodicInputs();
+
     if(robotContainer.useCommandScheduler())
       CommandScheduler.getInstance().run();
+    
+    for(RomiSubsystem rs : RobotContainer.allRomiSubsystems)
+      rs.writePeriodicOutputs();
   }
 
 
@@ -70,7 +76,6 @@ public class Robot extends TimedRobot
     autoCommand = robotContainer.getAutonomousCommand();
     if(autoCommand != null)
     {
-      // autoCommand.withInterrupt(() -> !RobotState.isAutonomous()).schedule();
       autoCommand.schedule();
     }
   }
@@ -84,7 +89,6 @@ public class Robot extends TimedRobot
   {
     if(autoCommand != null)
     {
-      // CommandScheduler.getInstance().cancelAll();
       autoCommand.cancel();
       autoCommand = null;
     }
